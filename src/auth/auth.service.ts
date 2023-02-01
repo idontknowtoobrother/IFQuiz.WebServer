@@ -6,7 +6,7 @@ import { User } from './schemas/user.schema';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt/dist';
 import { SignUpDto } from './dto/signup.dto';
-import { LoginDTO } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -43,7 +43,7 @@ export class AuthService {
         return responeUser
     }
 
-    async login(loginDto: LoginDTO): Promise<{ token: string}> {
+    async login(loginDto: LoginDto): Promise<{ token: string}> {
         const { email, password } = loginDto
         
         // find a user email is valid in database ?
