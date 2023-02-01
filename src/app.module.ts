@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +12,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
   imports: [ConfigModule.forRoot(), MongooseModule.forRoot('mongodb://localhost/ifquiz'), AuthModule],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],
+  exports: [JwtStrategy, PassportModule]
 })
 
 export class AppModule {}
