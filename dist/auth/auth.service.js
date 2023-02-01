@@ -36,7 +36,14 @@ let AuthService = class AuthService {
         const token = this.jwtService.sign({
             id: user._id
         });
-        return { token };
+        const responeUser = {
+            email: user.email,
+            fullname: user.fullname,
+            status: user.status,
+            birthday: user.birthday,
+            token: token
+        };
+        return responeUser;
     }
     async login(loginDto) {
         const { email, password } = loginDto;
@@ -51,7 +58,14 @@ let AuthService = class AuthService {
         const token = this.jwtService.sign({
             id: user._id
         });
-        return { token };
+        const responeUser = {
+            email: user.email,
+            fullname: user.fullname,
+            status: user.status,
+            birthday: user.birthday,
+            token: token
+        };
+        return responeUser;
     }
 };
 AuthService = __decorate([

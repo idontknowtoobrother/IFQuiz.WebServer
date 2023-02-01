@@ -32,7 +32,15 @@ export class AuthService {
             id: user._id
         })
 
-        return { token }
+        const responeUser = {
+            email: user.email,
+            fullname: user.fullname,
+            status: user.status,
+            birthday: user.birthday,
+            token: token
+        }
+
+        return responeUser
     }
 
     async login(loginDto: LoginDTO): Promise<{ token: string}> {
@@ -54,7 +62,14 @@ export class AuthService {
             id: user._id
         })
 
-        return { token }
+        const responeUser = {
+            email: user.email,
+            fullname: user.fullname,
+            status: user.status,
+            birthday: user.birthday,
+            token: token
+        }
 
+        return responeUser
     }
 }
