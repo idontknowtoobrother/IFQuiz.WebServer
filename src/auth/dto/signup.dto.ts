@@ -8,7 +8,7 @@ export class signUpDTO {
 
     @IsNotEmpty()
     @IsString()
-    @MinLength(6)
+    @MinLength(8)
     readonly password: string
 
     @IsNotEmpty()
