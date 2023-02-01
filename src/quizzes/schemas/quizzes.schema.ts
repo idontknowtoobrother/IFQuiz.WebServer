@@ -4,6 +4,11 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 export enum Category {
     MATH = 'Mathematics',
     SCIENCE = 'Science',
+    ENG = 'English Language',
+    COMSCI = 'Computer Science',
+    PE = 'Physical Education',
+    ART = 'Creative Arts',
+    LANGUAGE = 'World Language',
 }
 
 @Schema({ timestamps: true })
