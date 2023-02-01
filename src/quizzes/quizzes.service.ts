@@ -12,9 +12,18 @@ export class QuizzesService {
 
     // get all quizzes
     async findAll() : Promise<Quizzes[]>{
-        const quizzes = this.quizzesModel.find()
+        const quizzes = await this.quizzesModel.find()
         return quizzes
     }
+
+    // get one quizzes
+    async findOne(id: string) : Promise<Quizzes> {
+        const quiz = await this.quizzesModel.findById(id)
+        return quiz
+    }
+
+
+
 
 
 
