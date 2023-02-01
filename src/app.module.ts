@@ -7,12 +7,27 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { QuizzesModule } from './quizzes/quizzes.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRoot('mongodb://localhost/ifquiz'), AuthModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true
+    }), 
+    MongooseModule.forRoot('mongodb://localhost/ifquiz'), 
+    AuthModule, 
+    QuizzesModule
+  ],
   controllers: [AppController],
-  providers: [AppService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule]
+  providers: [
+    AppService, 
+    JwtStrategy
+  ],
+  exports: [
+    JwtStrategy, 
+    PassportModule
+  ]
 })
 
 export class AppModule {}
