@@ -5,19 +5,19 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 })
 export class User {    
     
-    @Prop({unique:[true, 'Duplicate email entered!']})
+    @Prop({required: true, unique: true})
     email: string
 
-    @Prop()
+    @Prop({required: true})
     password: string
 
-    @Prop()
+    @Prop({required: true})
     fullname: string
 
-    @Prop()
+    @Prop({default: "🤔 What you thinking ?"})
     status: string
 
-    @Prop()
+    @Prop({required: true})
     birthday : Date
 }
 
