@@ -17,7 +17,7 @@ export class QuizzesService {
         return quizzes
     }
 
-    // get one quizzes
+    // get one quiz ( By Id )
     async get(id: string) : Promise<Quizzes> {
         const quiz = await this.quizzesModel.findById(id)
         if(!quiz){
@@ -25,8 +25,6 @@ export class QuizzesService {
         }
         return quiz
     }
-
-
 
     // create quiz
     async create(quizDto: CreateQuizDto) : Promise<Quizzes> {
@@ -41,5 +39,8 @@ export class QuizzesService {
         return quiz
     }
 
+    // remove quiz ( By Id )
+
+    // update quiz ( By Id )
 
 }
