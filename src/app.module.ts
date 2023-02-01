@@ -20,14 +20,7 @@ import { QuizzesModule } from './quizzes/quizzes.module';
     QuizzesModule
   ],
   controllers: [AppController],
-  providers: [
-    AppService, 
-    JwtStrategy
-  ],
-  exports: [
-    JwtStrategy, 
-    PassportModule
-  ]
+  providers: [AppService],
 })
 
 export class AppModule {}

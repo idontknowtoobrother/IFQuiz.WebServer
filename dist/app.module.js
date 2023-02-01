@@ -13,11 +13,20 @@ const mongoose_1 = require("@nestjs/mongoose");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const auth_module_1 = require("./auth/auth.module");
+const quizzes_module_1 = require("./quizzes/quizzes.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot(), mongoose_1.MongooseModule.forRoot('mongodb://localhost/ifquiz'), auth_module_1.AuthModule],
+        imports: [
+            config_1.ConfigModule.forRoot({
+                envFilePath: '.env',
+                isGlobal: true
+            }),
+            mongoose_1.MongooseModule.forRoot(process.env.DB_URI),
+            auth_module_1.AuthModule,
+            quizzes_module_1.QuizzesModule
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

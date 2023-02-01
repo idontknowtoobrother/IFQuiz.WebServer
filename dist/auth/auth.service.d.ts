@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { User } from './schemas/user.schemas';
+import { User } from './schemas/user.schema';
 import { JwtService } from '@nestjs/jwt/dist';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDTO } from './dto/login.dto';

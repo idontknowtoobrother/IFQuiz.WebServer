@@ -11,10 +11,11 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const mongoose_1 = require("@nestjs/mongoose");
-const user_schemas_1 = require("./schemas/user.schemas");
-const passport_1 = require("@nestjs/passport");
+const user_schema_1 = require("./schemas/user.schema");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const jwt_strategy_1 = require("./jwt.strategy");
+const passport_1 = require("@nestjs/passport");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -36,11 +37,18 @@ AuthModule = __decorate([
                 }
             }),
             mongoose_1.MongooseModule.forFeature([
-                { name: 'User', schema: user_schemas_1.UserSchema }
+                { name: 'User', schema: user_schema_1.UserSchema }
             ])
         ],
-        providers: [auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController]
+        controllers: [auth_controller_1.AuthController],
+        providers: [
+            auth_service_1.AuthService,
+            jwt_strategy_1.JwtStrategy
+        ],
+        exports: [
+            jwt_strategy_1.JwtStrategy,
+            passport_1.PassportModule
+        ]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;
