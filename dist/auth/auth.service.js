@@ -38,6 +38,21 @@ let AuthService = class AuthService {
         });
         return { token };
     }
+    async login(loginDto) {
+        const { email, password } = loginDto;
+        const user = await this.userModel.findOne({ email });
+        if (!user) {
+            throw new common_1.UnauthorizedException("Invalid email or password");
+        }
+        const isPasswordMatched = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatched) {
+            throw new common_1.UnauthorizedException("Invalid email or password");
+        }
+        const token = this.jwtService.sign({
+            id: user._id
+        });
+        return { token };
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
