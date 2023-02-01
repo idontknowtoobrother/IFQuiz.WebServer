@@ -1,6 +1,6 @@
 import { IsDate, IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator'
 
-export class signUpDTO {
+export class SignUpDTO {
 
     @IsNotEmpty()
     @IsEmail({}, {message: "Incorrect Email"})
@@ -17,6 +17,6 @@ export class signUpDTO {
 
     @IsNotEmpty()
     @IsDate()
-    readonly birtday: Date
+    readonly birthday: Date
 
 }

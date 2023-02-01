@@ -5,6 +5,7 @@ import { User } from './schemas/user.schemas';
 
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt/dist';
+import { SignUpDTO } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,7 @@ export class AuthService {
         private jwtService: JwtService
     ){}
 
-    async signUp(signUpDTO): Promise<{ token: string}>{
+    async signUp(signUpDTO: SignUpDTO): Promise<{ token: string}>{
         const { email, password, fullname, birthday } = signUpDTO
 
         const hashedPassword = await bcrypt.hash(password, 10)
