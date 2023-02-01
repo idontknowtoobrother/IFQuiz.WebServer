@@ -1,9 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
+// @F1 : import document make u easy don't have to add _id field to class User
+import { Document } from 'mongoose'
+
 @Schema({
     timestamps: true
 })
-export class User {    
+export class User extends Document {    // @F1 : extends it by Document
     
     @Prop({required: true, unique: true})
     email: string
