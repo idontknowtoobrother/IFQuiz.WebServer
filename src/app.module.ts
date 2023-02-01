@@ -15,7 +15,7 @@ import { QuizzesModule } from './quizzes/quizzes.module';
       envFilePath: '.env',
       isGlobal: true
     }), 
-    MongooseModule.forRoot('mongodb://localhost/ifquiz'), 
+    MongooseModule.forRoot(process.env.DB_URI), 
     AuthModule, 
     QuizzesModule
   ],
