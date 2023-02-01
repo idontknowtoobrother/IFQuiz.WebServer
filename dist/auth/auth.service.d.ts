@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
 import { JwtService } from '@nestjs/jwt/dist';
 import { SignUpDto } from './dto/signup.dto';
-import { LoginDTO } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 export declare class AuthService {
     private userModel;
     private jwtService;
@@ -10,7 +10,7 @@ export declare class AuthService {
     signUp(signUpDto: SignUpDto): Promise<{
         token: string;
     }>;
-    login(loginDto: LoginDTO): Promise<{
+    login(loginDto: LoginDto): Promise<{
         token: string;
     }>;
 }

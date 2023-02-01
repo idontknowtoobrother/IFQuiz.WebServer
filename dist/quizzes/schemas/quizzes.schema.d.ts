@@ -25,7 +25,12 @@
 /// <reference types="mongoose/types/inferschematype" />
 export declare enum Category {
     MATH = "Mathematics",
-    SCIENCE = "Science"
+    SCIENCE = "Science",
+    ENG = "English Language",
+    COMSCI = "Computer Science",
+    PE = "Physical Education",
+    ART = "Creative Arts",
+    LANGUAGE = "World Language"
 }
 export declare class Quizzes {
     name: string;

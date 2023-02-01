@@ -15,6 +15,11 @@ var Category;
 (function (Category) {
     Category["MATH"] = "Mathematics";
     Category["SCIENCE"] = "Science";
+    Category["ENG"] = "English Language";
+    Category["COMSCI"] = "Computer Science";
+    Category["PE"] = "Physical Education";
+    Category["ART"] = "Creative Arts";
+    Category["LANGUAGE"] = "World Language";
 })(Category = exports.Category || (exports.Category = {}));
 let Quizzes = class Quizzes {
 };

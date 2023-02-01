@@ -21,12 +21,24 @@ let QuizzesService = class QuizzesService {
     constructor(quizzesModel) {
         this.quizzesModel = quizzesModel;
     }
-    async findAll() {
+    async getAll() {
         const quizzes = await this.quizzesModel.find();
         return quizzes;
     }
-    async findOne(id) {
+    async get(id) {
         const quiz = await this.quizzesModel.findById(id);
+        if (!quiz) {
+            throw new common_1.NotFoundException('Quiz not found !');
+        }
+        return quiz;
+    }
+    async create(quizDto) {
+        const { name, description, category } = quizDto;
+        const quiz = await this.quizzesModel.create({
+            name,
+            description,
+            category
+        });
         return quiz;
     }
 };

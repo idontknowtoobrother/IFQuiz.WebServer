@@ -9,20 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LoginDto = void 0;
+exports.CreateQuizDto = void 0;
 const class_validator_1 = require("class-validator");
-class LoginDto {
+const quizzes_schema_1 = require("../schemas/quizzes.schema");
+class CreateQuizDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)({}, { message: "Incorrect Email" }),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], LoginDto.prototype, "email", void 0);
+], CreateQuizDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(8),
     __metadata("design:type", String)
-], LoginDto.prototype, "password", void 0);
-exports.LoginDto = LoginDto;
-//# sourceMappingURL=login.dto.js.map
+], CreateQuizDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(quizzes_schema_1.Category),
+    __metadata("design:type", String)
+], CreateQuizDto.prototype, "category", void 0);
+exports.CreateQuizDto = CreateQuizDto;
+//# sourceMappingURL=createquiz.dto.js.map

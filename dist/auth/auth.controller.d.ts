@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { LoginDTO } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 export declare class AuthController {
     private authService;
@@ -7,7 +7,7 @@ export declare class AuthController {
     signUp(signUpDto: SignUpDto): Promise<{
         token: string;
     }>;
-    login(loginDto: LoginDTO): Promise<{
+    login(loginDto: LoginDto): Promise<{
         token: string;
     }>;
 }
