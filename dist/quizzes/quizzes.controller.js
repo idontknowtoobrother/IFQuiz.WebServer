@@ -22,8 +22,8 @@ let QuizzesController = class QuizzesController {
     constructor(quizzesService) {
         this.quizzesService = quizzesService;
     }
-    async getQuizzes() {
-        return this.quizzesService.getAll();
+    async getQuizzes(query) {
+        return this.quizzesService.getAll(query);
     }
     async getQuiz(id) {
         return this.quizzesService.get(id);
@@ -40,8 +40,9 @@ let QuizzesController = class QuizzesController {
 };
 __decorate([
     (0, request_mapping_decorator_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], QuizzesController.prototype, "getQuizzes", null);
 __decorate([

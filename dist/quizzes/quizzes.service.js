@@ -21,8 +21,14 @@ let QuizzesService = class QuizzesService {
     constructor(quizzesModel) {
         this.quizzesModel = quizzesModel;
     }
-    async getAll() {
-        const quizzes = await this.quizzesModel.find();
+    async getAll(query) {
+        const keyword = query.name ? {
+            name: {
+                $regex: query.name,
+                $options: 'i'
+            }
+        } : {};
+        const quizzes = await this.quizzesModel.find(Object.assign({}, keyword));
         return quizzes;
     }
     async get(id) {

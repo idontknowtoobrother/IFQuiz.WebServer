@@ -1,17 +1,22 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, Param, Query } from '@nestjs/common';
 import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizzesService } from './quizzes.service';
 import { Quizzes } from './schemas/quizzes.schema';
 
+import { Query as ExpressQuery } from 'express-serve-static-core'
+
 @Controller('quizzes')
 export class QuizzesController {
     constructor(private quizzesService: QuizzesService){}
 
     @Get() // get all quizzes
-    async getQuizzes(): Promise<Quizzes[]> {
-        return this.quizzesService.getAll()
+    async getQuizzes(
+        @Query()
+        query : ExpressQuery
+    ): Promise<Quizzes[]> {
+        return this.quizzesService.getAll(query)
     }
 
     @Get(':id') // get quiz by id

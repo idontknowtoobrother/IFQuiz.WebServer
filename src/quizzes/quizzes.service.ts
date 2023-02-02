@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quizzes } from './schemas/quizzes.schema';
+
+import { Query } from 'express-serve-static-core'
 
 @Injectable()
 export class QuizzesService {
@@ -12,8 +13,16 @@ export class QuizzesService {
     ){}
 
     // get all quizzes
-    async getAll() : Promise<Quizzes[]>{
-        const quizzes = await this.quizzesModel.find()
+    async getAll(query: Query) : Promise<Quizzes[]>{
+        
+        const keyword = query.name ? {
+            name: {
+                $regex: query.name,
+                $options: 'i'
+            }
+        } : {}
+
+        const quizzes = await this.quizzesModel.find({ ...keyword })
         return quizzes
     }
 
