@@ -54,11 +54,9 @@ export class QuizzesController {
     @UseGuards(AuthGuard())
     async deleteQuiz(
         @Param('id')
-        id: string,
-        @Req()
-        req
+        id: string
     ): Promise<string> {
-        return this.quizzesService.delete(id, req.user)
+        return this.quizzesService.delete(id)
     }
 
 }

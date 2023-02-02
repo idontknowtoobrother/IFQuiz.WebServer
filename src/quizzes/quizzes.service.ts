@@ -43,16 +43,14 @@ export class QuizzesService {
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
 
         const data = Object.assign(newQuiz, {user: user._id})
-
+        
         const quiz = await this.quizzesModel.create(data)
 
         return quiz
     }
 
     // delete quiz ( By Id )
-    async delete(id: string, user: User) : Promise<string> {
-        console.log(user._id)
-
+    async delete(id: string) : Promise<string> {
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
         const res = await this.quizzesModel.findByIdAndDelete(id);
