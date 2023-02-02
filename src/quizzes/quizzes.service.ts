@@ -5,6 +5,7 @@ import { Quizzes } from './schemas/quizzes.schema';
 
 import { Query } from 'express-serve-static-core'
 import { BadRequestException } from '@nestjs/common/exceptions';
+import { User } from '../auth/schemas/user.schema';
 
 @Injectable()
 export class QuizzesService {
@@ -39,14 +40,11 @@ export class QuizzesService {
     }
 
     // create quiz
-    async create(newQuiz: Quizzes) : Promise<Quizzes> {
-        const { name, description, category } = newQuiz
+    async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
 
-        const quiz = await this.quizzesModel.create({
-            name,
-            description,
-            category
-        })
+        const data = Object.assign(newQuiz, {user: user._id})
+        
+        const quiz = await this.quizzesModel.create(data)
 
         return quiz
     }

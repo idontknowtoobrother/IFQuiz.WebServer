@@ -8,7 +8,7 @@ export declare class QuizzesController {
     constructor(quizzesService: QuizzesService);
     getQuizzes(query: ExpressQuery): Promise<Quizzes[]>;
     getQuiz(id: string): Promise<Quizzes>;
-    createQuiz(createQuizDto: CreateQuizDto): Promise<Quizzes>;
+    createQuiz(createQuizDto: CreateQuizDto, req: any): Promise<Quizzes>;
     updateQuiz(id: string, quizDto: UpdateQuizDto): Promise<Quizzes>;
     deleteQuiz(id: string): Promise<string>;
 }

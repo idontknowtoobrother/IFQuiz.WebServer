@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateQuizDto = void 0;
 const class_validator_1 = require("class-validator");
+const user_schema_1 = require("../../auth/schemas/user.schema");
 const quizzes_schema_1 = require("../schemas/quizzes.schema");
 class UpdateQuizDto {
 }
@@ -29,5 +30,9 @@ __decorate([
     (0, class_validator_1.IsEnum)(quizzes_schema_1.Category),
     __metadata("design:type", String)
 ], UpdateQuizDto.prototype, "category", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)({ message: "Can't pass user id." }),
+    __metadata("design:type", user_schema_1.User)
+], UpdateQuizDto.prototype, "user", void 0);
 exports.UpdateQuizDto = UpdateQuizDto;
 //# sourceMappingURL=update-quiz.dto.js.map

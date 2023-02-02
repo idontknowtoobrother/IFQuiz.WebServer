@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
@@ -33,8 +33,10 @@ export class QuizzesController {
     async createQuiz(
         @Body() 
         createQuizDto: CreateQuizDto,
+        @Req()
+        req
     ): Promise<Quizzes> {
-        return this.quizzesService.create(createQuizDto)
+        return this.quizzesService.create(createQuizDto, req.user)
     }
 
     @Put(':id') // update quiz

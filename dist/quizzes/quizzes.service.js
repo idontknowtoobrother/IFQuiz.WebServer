@@ -41,13 +41,9 @@ let QuizzesService = class QuizzesService {
         }
         return quiz;
     }
-    async create(newQuiz) {
-        const { name, description, category } = newQuiz;
-        const quiz = await this.quizzesModel.create({
-            name,
-            description,
-            category
-        });
+    async create(newQuiz, user) {
+        const data = Object.assign(newQuiz, { user: user._id });
+        const quiz = await this.quizzesModel.create(data);
         return quiz;
     }
     async delete(id) {

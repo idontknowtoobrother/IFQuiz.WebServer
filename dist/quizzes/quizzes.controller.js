@@ -29,8 +29,8 @@ let QuizzesController = class QuizzesController {
     async getQuiz(id) {
         return this.quizzesService.get(id);
     }
-    async createQuiz(createQuizDto) {
-        return this.quizzesService.create(createQuizDto);
+    async createQuiz(createQuizDto, req) {
+        return this.quizzesService.create(createQuizDto, req.user);
     }
     async updateQuiz(id, quizDto) {
         return this.quizzesService.put(id, quizDto);
@@ -57,8 +57,9 @@ __decorate([
     (0, request_mapping_decorator_1.Post)('/create'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_quiz_dto_1.CreateQuizDto]),
+    __metadata("design:paramtypes", [create_quiz_dto_1.CreateQuizDto, Object]),
     __metadata("design:returntype", Promise)
 ], QuizzesController.prototype, "createQuiz", null);
 __decorate([

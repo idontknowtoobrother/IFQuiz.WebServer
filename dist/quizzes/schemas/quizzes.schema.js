@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuizzesSchema = exports.Quizzes = exports.Category = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const user_schema_1 = require("../../auth/schemas/user.schema");
 var Category;
 (function (Category) {
     Category["MATH"] = "Mathematics";
@@ -35,6 +37,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
 ], Quizzes.prototype, "category", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'User' }),
+    __metadata("design:type", user_schema_1.User)
+], Quizzes.prototype, "user", void 0);
 Quizzes = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Quizzes);
