@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateQuizDto } from './dto/createquiz.dto';
+import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quizzes } from './schemas/quizzes.schema';
 
 @Injectable()
@@ -27,8 +27,8 @@ export class QuizzesService {
     }
 
     // create quiz
-    async create(quizDto: CreateQuizDto) : Promise<Quizzes> {
-        const { name, description, category } = quizDto
+    async create(newQuiz: Quizzes) : Promise<Quizzes> {
+        const { name, description, category } = newQuiz
 
         const quiz = await this.quizzesModel.create({
             name,
@@ -39,10 +39,10 @@ export class QuizzesService {
         return quiz
     }
 
-    // remove quiz ( By Id )
-    async remove(id: string) : Promise<string> {
-        const quiz = await this.quizzesModel.findByIdAndDelete(id);
-        if(!quiz){
+    // delete quiz ( By Id )
+    async delete(id: string) : Promise<string> {
+        const res = await this.quizzesModel.findByIdAndDelete(id);
+        if(!res){
             throw new NotFoundException('Quiz not found!')
         }
 
@@ -50,5 +50,11 @@ export class QuizzesService {
     }
 
     // update quiz ( By Id )
+    async put(id: string, updateQuiz: Quizzes) : Promise<Quizzes> {
+        return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
+            new: true,
+            runValidators: true
+        })
+    }
 
 }

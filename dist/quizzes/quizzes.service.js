@@ -28,18 +28,31 @@ let QuizzesService = class QuizzesService {
     async get(id) {
         const quiz = await this.quizzesModel.findById(id);
         if (!quiz) {
-            throw new common_1.NotFoundException('Quiz not found !');
+            throw new common_1.NotFoundException('Quiz not found!');
         }
         return quiz;
     }
-    async create(quizDto) {
-        const { name, description, category } = quizDto;
+    async create(newQuiz) {
+        const { name, description, category } = newQuiz;
         const quiz = await this.quizzesModel.create({
             name,
             description,
             category
         });
         return quiz;
+    }
+    async delete(id) {
+        const res = await this.quizzesModel.findByIdAndDelete(id);
+        if (!res) {
+            throw new common_1.NotFoundException('Quiz not found!');
+        }
+        return 'Quiz deleted.';
+    }
+    async put(id, updateQuiz) {
+        return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
+            new: true,
+            runValidators: true
+        });
     }
 };
 QuizzesService = __decorate([

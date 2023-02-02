@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { Category } from "../schemas/quizzes.schema";
 
-export class CreateQuizDto {
+export class UpdateQuizDto {
 
     @IsNotEmpty()
     @IsString()
@@ -17,6 +17,5 @@ export class CreateQuizDto {
 
     // @ TODO MORE
     // Question : Object
-
 
 }

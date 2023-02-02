@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuizzesController = void 0;
 const common_1 = require("@nestjs/common");
 const request_mapping_decorator_1 = require("@nestjs/common/decorators/http/request-mapping.decorator");
-const createquiz_dto_1 = require("./dto/createquiz.dto");
+const create_quiz_dto_1 = require("./dto/create-quiz.dto");
+const update_quiz_dto_1 = require("./dto/update-quiz.dto");
 const quizzes_service_1 = require("./quizzes.service");
 let QuizzesController = class QuizzesController {
     constructor(quizzesService) {
         this.quizzesService = quizzesService;
     }
-    async getAllQuizzes() {
+    async getQuizzes() {
         return this.quizzesService.getAll();
     }
     async getQuiz(id) {
@@ -30,13 +31,19 @@ let QuizzesController = class QuizzesController {
     async createQuiz(createQuizDto) {
         return this.quizzesService.create(createQuizDto);
     }
+    async updateQuiz(id, quizDto) {
+        return this.quizzesService.put(id, quizDto);
+    }
+    async deleteQuiz(id) {
+        return this.quizzesService.delete(id);
+    }
 };
 __decorate([
     (0, request_mapping_decorator_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], QuizzesController.prototype, "getAllQuizzes", null);
+], QuizzesController.prototype, "getQuizzes", null);
 __decorate([
     (0, request_mapping_decorator_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -48,9 +55,24 @@ __decorate([
     (0, request_mapping_decorator_1.Post)('/create'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createquiz_dto_1.CreateQuizDto]),
+    __metadata("design:paramtypes", [create_quiz_dto_1.CreateQuizDto]),
     __metadata("design:returntype", Promise)
 ], QuizzesController.prototype, "createQuiz", null);
+__decorate([
+    (0, request_mapping_decorator_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_quiz_dto_1.UpdateQuizDto]),
+    __metadata("design:returntype", Promise)
+], QuizzesController.prototype, "updateQuiz", null);
+__decorate([
+    (0, request_mapping_decorator_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], QuizzesController.prototype, "deleteQuiz", null);
 QuizzesController = __decorate([
     (0, common_1.Controller)('quizzes'),
     __metadata("design:paramtypes", [quizzes_service_1.QuizzesService])

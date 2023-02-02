@@ -1,6 +1,7 @@
 import { Body, Controller, Param } from '@nestjs/common';
-import { Delete, Get, Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
-import { CreateQuizDto } from './dto/createquiz.dto';
+import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { CreateQuizDto } from './dto/create-quiz.dto';
+import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizzesService } from './quizzes.service';
 import { Quizzes } from './schemas/quizzes.schema';
 
@@ -9,7 +10,7 @@ export class QuizzesController {
     constructor(private quizzesService: QuizzesService){}
 
     @Get() // get all quizzes
-    async getAllQuizzes(): Promise<Quizzes[]> {
+    async getQuizzes(): Promise<Quizzes[]> {
         return this.quizzesService.getAll()
     }
 
@@ -29,13 +30,22 @@ export class QuizzesController {
         return this.quizzesService.create(createQuizDto)
     }
 
-    @Delete(':id') // remove quiz
+    @Put(':id') // update quiz
+    async updateQuiz(
+        @Param('id')
+        id: string,
+        @Body()
+        quizDto: UpdateQuizDto
+    ): Promise<Quizzes> {
+        return this.quizzesService.put(id, quizDto)
+    }
+
+    @Delete(':id') // delete quiz
     async deleteQuiz(
         @Param('id')
         id: string
     ): Promise<string> {
-        return this.quizzesService.remove(id)
+        return this.quizzesService.delete(id)
     }
-
 
 }
