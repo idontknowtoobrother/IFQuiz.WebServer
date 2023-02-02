@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Quizzes } from './schemas/quizzes.schema';
 
 import { Query } from 'express-serve-static-core'
+import { BadRequestException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class QuizzesService {
@@ -28,6 +29,8 @@ export class QuizzesService {
 
     // get one quiz ( By Id )
     async get(id: string) : Promise<Quizzes> {
+        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+
         const quiz = await this.quizzesModel.findById(id)
         if(!quiz){
             throw new NotFoundException('Quiz not found!')
@@ -50,6 +53,8 @@ export class QuizzesService {
 
     // delete quiz ( By Id )
     async delete(id: string) : Promise<string> {
+        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+
         const res = await this.quizzesModel.findByIdAndDelete(id);
         if(!res){
             throw new NotFoundException('Quiz not found!')
@@ -60,6 +65,8 @@ export class QuizzesService {
 
     // update quiz ( By Id )
     async put(id: string, updateQuiz: Quizzes) : Promise<Quizzes> {
+        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+
         return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
             new: true,
             runValidators: true
