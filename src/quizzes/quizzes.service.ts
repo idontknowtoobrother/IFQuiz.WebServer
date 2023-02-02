@@ -21,7 +21,7 @@ export class QuizzesService {
     async get(id: string) : Promise<Quizzes> {
         const quiz = await this.quizzesModel.findById(id)
         if(!quiz){
-            throw new NotFoundException('Quiz not found !')
+            throw new NotFoundException('Quiz not found!')
         }
         return quiz
     }
@@ -40,6 +40,14 @@ export class QuizzesService {
     }
 
     // remove quiz ( By Id )
+    async remove(id: string) : Promise<string> {
+        const quiz = await this.quizzesModel.findByIdAndDelete(id);
+        if(!quiz){
+            throw new NotFoundException('Quiz not found!')
+        }
+
+        return 'Quiz deleted.'
+    }
 
     // update quiz ( By Id )
 

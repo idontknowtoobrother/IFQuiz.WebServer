@@ -1,5 +1,5 @@
 import { Body, Controller, Param } from '@nestjs/common';
-import { Get, Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Delete, Get, Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { CreateQuizDto } from './dto/createquiz.dto';
 import { QuizzesService } from './quizzes.service';
 import { Quizzes } from './schemas/quizzes.schema';
@@ -17,7 +17,7 @@ export class QuizzesController {
     async getQuiz(
         @Param('id')
         id: string
-    ): Promise<Quizzes>{
+    ): Promise<Quizzes> {
         return this.quizzesService.get(id)
     }
 
@@ -25,7 +25,17 @@ export class QuizzesController {
     async createQuiz(
         @Body() 
         createQuizDto: CreateQuizDto,
-    ): Promise<Quizzes>{
+    ): Promise<Quizzes> {
         return this.quizzesService.create(createQuizDto)
     }
+
+    @Delete(':id') // remove quiz
+    async deleteQuiz(
+        @Param('id')
+        id: string
+    ): Promise<string> {
+        return this.quizzesService.remove(id)
+    }
+
+
 }
