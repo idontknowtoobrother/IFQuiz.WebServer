@@ -15,17 +15,17 @@ const quizzes_schema_1 = require("../schemas/quizzes.schema");
 class UpdateQuizDto {
 }
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateQuizDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateQuizDto.prototype, "description", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(quizzes_schema_1.Category),
     __metadata("design:type", String)
 ], UpdateQuizDto.prototype, "category", void 0);

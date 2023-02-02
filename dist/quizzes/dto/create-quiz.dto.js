@@ -26,7 +26,7 @@ __decorate([
 ], CreateQuizDto.prototype, "description", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEnum)(quizzes_schema_1.Category),
+    (0, class_validator_1.IsEnum)(quizzes_schema_1.Category, { message: "Incorrect Category" }),
     __metadata("design:type", String)
 ], CreateQuizDto.prototype, "category", void 0);
 exports.CreateQuizDto = CreateQuizDto;

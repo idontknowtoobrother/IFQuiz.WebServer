@@ -12,7 +12,7 @@ export class CreateQuizDto {
     readonly description : string
 
     @IsNotEmpty()
-    @IsEnum(Category)
+    @IsEnum(Category, { message: "Incorrect Category" })
     readonly category : Category
 
     // @ TODO MORE

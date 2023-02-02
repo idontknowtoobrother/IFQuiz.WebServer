@@ -1,17 +1,17 @@
-import { IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { IsEnum, IsOptional, IsString } from "class-validator";
 import { Category } from "../schemas/quizzes.schema";
 
 export class UpdateQuizDto {
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly name : string
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     readonly description : string
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(Category)
     readonly category : Category
 
