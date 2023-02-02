@@ -8,6 +8,6 @@ export declare class QuizzesService {
     getAll(query: Query): Promise<Quizzes[]>;
     get(id: string): Promise<Quizzes>;
     create(newQuiz: Quizzes, user: User): Promise<Quizzes>;
-    delete(id: string): Promise<string>;
+    delete(id: string, user: User): Promise<string>;
     put(id: string, updateQuiz: Quizzes): Promise<Quizzes>;
 }
