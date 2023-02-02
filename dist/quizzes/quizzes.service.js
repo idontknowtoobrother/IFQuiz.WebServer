@@ -46,19 +46,25 @@ let QuizzesService = class QuizzesService {
         const quiz = await this.quizzesModel.create(data);
         return quiz;
     }
-    async delete(id) {
+    async deleteByUser(id, userId) {
         if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
-        const res = await this.quizzesModel.findByIdAndDelete(id);
+        const res = await this.quizzesModel.findOneAndDelete({
+            _id: id,
+            user: userId
+        });
         if (!res) {
-            throw new common_1.NotFoundException('Quiz not found!');
+            throw new common_1.NotFoundException('Quiz not found or not owned.');
         }
         return 'Quiz deleted.';
     }
-    async put(id, updateQuiz) {
+    async updateByUser(id, updateQuiz, userId) {
         if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
-        return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
+        return await this.quizzesModel.findOneAndUpdate({
+            _id: id,
+            user: userId
+        }, updateQuiz, {
             new: true,
             runValidators: true
         });

@@ -32,11 +32,11 @@ let QuizzesController = class QuizzesController {
     async createQuiz(createQuizDto, req) {
         return this.quizzesService.create(createQuizDto, req.user);
     }
-    async updateQuiz(id, quizDto) {
-        return this.quizzesService.put(id, quizDto);
+    async updateQuiz(id, quizDto, req) {
+        return this.quizzesService.updateByUser(id, quizDto, req.user._id);
     }
-    async deleteQuiz(id) {
-        return this.quizzesService.delete(id);
+    async deleteQuiz(id, req) {
+        return this.quizzesService.deleteByUser(id, req.user._id);
     }
 };
 __decorate([
@@ -67,16 +67,18 @@ __decorate([
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_quiz_dto_1.UpdateQuizDto]),
+    __metadata("design:paramtypes", [String, update_quiz_dto_1.UpdateQuizDto, Object]),
     __metadata("design:returntype", Promise)
 ], QuizzesController.prototype, "updateQuiz", null);
 __decorate([
     (0, request_mapping_decorator_1.Delete)(':id'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], QuizzesController.prototype, "deleteQuiz", null);
 QuizzesController = __decorate([

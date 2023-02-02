@@ -9,6 +9,6 @@ export declare class QuizzesController {
     getQuizzes(query: ExpressQuery): Promise<Quizzes[]>;
     getQuiz(id: string): Promise<Quizzes>;
     createQuiz(createQuizDto: CreateQuizDto, req: any): Promise<Quizzes>;
-    updateQuiz(id: string, quizDto: UpdateQuizDto): Promise<Quizzes>;
-    deleteQuiz(id: string): Promise<string>;
+    updateQuiz(id: string, quizDto: UpdateQuizDto, req: any): Promise<Quizzes>;
+    deleteQuiz(id: string, req: any): Promise<string>;
 }

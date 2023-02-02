@@ -50,25 +50,39 @@ export class QuizzesService {
     }
 
     // delete quiz ( By Id )
-    async delete(id: string) : Promise<string> {
+    async deleteByUser(id: string, userId: string) : Promise<string> {
+
+
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
-        const res = await this.quizzesModel.findByIdAndDelete(id);
+        const res = await this.quizzesModel.findOneAndDelete({
+            _id: id,
+            user: userId
+        })
+        
         if(!res){
-            throw new NotFoundException('Quiz not found!')
+            throw new NotFoundException('Quiz not found or not owned.')
         }
 
         return 'Quiz deleted.'
     }
 
     // update quiz ( By Id )
-    async put(id: string, updateQuiz: Quizzes) : Promise<Quizzes> {
+    async updateByUser(id: string, updateQuiz: Quizzes, userId: string) : Promise<Quizzes> {
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
-        return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
+        return await this.quizzesModel.findOneAndUpdate({
+            _id: id,
+            user: userId
+        }, updateQuiz, {
             new: true,
             runValidators: true
         })
+
+        // return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
+        //     new: true,
+        //     runValidators: true
+        // })
     }
 
 }

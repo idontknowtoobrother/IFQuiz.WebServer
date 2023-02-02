@@ -45,18 +45,22 @@ export class QuizzesController {
         @Param('id')
         id: string,
         @Body()
-        quizDto: UpdateQuizDto
+        quizDto: UpdateQuizDto,
+        @Req()
+        req
     ): Promise<Quizzes> {
-        return this.quizzesService.put(id, quizDto)
+        return this.quizzesService.updateByUser(id, quizDto, req.user._id)
     }
 
     @Delete(':id') // delete quiz
     @UseGuards(AuthGuard())
     async deleteQuiz(
         @Param('id')
-        id: string
+        id: string,
+        @Req()
+        req
     ): Promise<string> {
-        return this.quizzesService.delete(id)
+        return this.quizzesService.deleteByUser(id, req.user._id)
     }
 
 }
