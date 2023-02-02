@@ -33,8 +33,7 @@ let QuizzesService = class QuizzesService {
         return quizzes;
     }
     async get(id) {
-        const isValidId = mongoose_2.default.isValidObjectId(id);
-        if (!isValidId)
+        if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
         const quiz = await this.quizzesModel.findById(id);
         if (!quiz) {
@@ -52,8 +51,7 @@ let QuizzesService = class QuizzesService {
         return quiz;
     }
     async delete(id) {
-        const isValidId = mongoose_2.default.isValidObjectId(id);
-        if (!isValidId)
+        if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
         const res = await this.quizzesModel.findByIdAndDelete(id);
         if (!res) {
@@ -62,8 +60,7 @@ let QuizzesService = class QuizzesService {
         return 'Quiz deleted.';
     }
     async put(id, updateQuiz) {
-        const isValidId = mongoose_2.default.isValidObjectId(id);
-        if (!isValidId)
+        if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
         return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
             new: true,

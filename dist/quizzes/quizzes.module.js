@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.QuizzesModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const auth_module_1 = require("../auth/auth.module");
 const quizzes_controller_1 = require("./quizzes.controller");
 const quizzes_service_1 = require("./quizzes.service");
 const quizzes_schema_1 = require("./schemas/quizzes.schema");
@@ -17,6 +18,7 @@ let QuizzesModule = class QuizzesModule {
 QuizzesModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            auth_module_1.AuthModule,
             mongoose_1.MongooseModule.forFeature([
                 { name: "Quizzes", schema: quizzes_schema_1.QuizzesSchema }
             ])

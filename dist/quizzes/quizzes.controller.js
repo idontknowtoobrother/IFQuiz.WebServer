@@ -18,6 +18,7 @@ const request_mapping_decorator_1 = require("@nestjs/common/decorators/http/requ
 const create_quiz_dto_1 = require("./dto/create-quiz.dto");
 const update_quiz_dto_1 = require("./dto/update-quiz.dto");
 const quizzes_service_1 = require("./quizzes.service");
+const passport_1 = require("@nestjs/passport");
 let QuizzesController = class QuizzesController {
     constructor(quizzesService) {
         this.quizzesService = quizzesService;
@@ -54,6 +55,7 @@ __decorate([
 ], QuizzesController.prototype, "getQuiz", null);
 __decorate([
     (0, request_mapping_decorator_1.Post)('/create'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_quiz_dto_1.CreateQuizDto]),
@@ -61,6 +63,7 @@ __decorate([
 ], QuizzesController.prototype, "createQuiz", null);
 __decorate([
     (0, request_mapping_decorator_1.Put)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -69,6 +72,7 @@ __decorate([
 ], QuizzesController.prototype, "updateQuiz", null);
 __decorate([
     (0, request_mapping_decorator_1.Delete)(':id'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
