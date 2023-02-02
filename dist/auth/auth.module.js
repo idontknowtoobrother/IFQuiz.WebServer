@@ -14,7 +14,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schemas/user.schema");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
-const jwt_strategy_1 = require("./jwt.strategy");
+const jwt_strategy_1 = require("./strategy/jwt.strategy");
 const passport_1 = require("@nestjs/passport");
 let AuthModule = class AuthModule {
 };

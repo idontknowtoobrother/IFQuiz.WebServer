@@ -29,5 +29,6 @@ export declare class User extends Document {
     fullname: string;
     status: string;
     birthday: Date;
+    profileImage: string;
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User>;

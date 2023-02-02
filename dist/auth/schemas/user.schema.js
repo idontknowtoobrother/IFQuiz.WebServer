@@ -34,6 +34,10 @@ __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", Date)
 ], User.prototype, "birthday", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: null }),
+    __metadata("design:type", String)
+], User.prototype, "profileImage", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true
