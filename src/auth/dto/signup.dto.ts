@@ -16,7 +16,7 @@ export class SignUpDto {
     readonly fullname: string
 
     @IsNotEmpty()
-    @IsDate()
+    // @IsDate()
     readonly birthday: Date
 
 }

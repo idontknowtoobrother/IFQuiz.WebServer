@@ -2056,6 +2056,11 @@
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.8.2.tgz"
   "version" "8.8.2"
 
+"aicommits@^1.1.0":
+  "integrity" "sha512-7OUUh0oDPu8ixk1QzjNabep9suMqnRMCw1JQmL66N2Ydy8uRHkVTwb7CFYYaDcdlVm1b3xyJNA3XFsXtYObSjA=="
+  "resolved" "https://registry.npmjs.org/aicommits/-/aicommits-1.1.0.tgz"
+  "version" "1.1.0"
+
 "ajv-formats@2.1.1":
   "integrity" "sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA=="
   "resolved" "https://registry.npmjs.org/ajv-formats/-/ajv-formats-2.1.1.tgz"

@@ -31,7 +31,6 @@ __decorate([
 ], SignUpDto.prototype, "fullname", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsDate)(),
     __metadata("design:type", Date)
 ], SignUpDto.prototype, "birthday", void 0);
 exports.SignUpDto = SignUpDto;
