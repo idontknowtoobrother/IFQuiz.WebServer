@@ -26,21 +26,13 @@ let UserService = class UserService {
             throw new common_1.BadRequestException('Incorrect id.');
         await this.userModel.findOneAndUpdate({
             _id: userId
-        }, updateStatus, {
+        }, {
+            status: updateStatus.status
+        }, {
             new: true,
             runValidators: true
         });
-        return updateStatus;
-    }
-    async updateProfile(updateProfile, userId) {
-        if (!mongoose.isValidObjectId(userId))
-            throw new common_1.BadRequestException('incorrect id.');
-        return await this.userModel.findOneAndUpdate({
-            _id: userId
-        }, updateProfile, {
-            new: true,
-            runValidators: true
-        });
+        return updateStatus.status;
     }
 };
 UserService = __decorate([
@@ -49,4 +41,4 @@ UserService = __decorate([
     __metadata("design:paramtypes", [mongoose.Model])
 ], UserService);
 exports.UserService = UserService;
-//# sourceMappingURL=users.service.js.map
+//# sourceMappingURL=user.service.js.map

@@ -12,25 +12,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.AccountsService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose = require("mongoose");
 const user_schema_1 = require("../auth/schemas/user.schema");
-let UserService = class UserService {
+let AccountsService = class AccountsService {
     constructor(userModel) {
         this.userModel = userModel;
     }
     async updateStatus(updateStatus, userId) {
         if (!mongoose.isValidObjectId(userId))
             throw new common_1.BadRequestException('Incorrect id.');
-        await this.userModel.findOneAndUpdate({
+        return await this.userModel.findOneAndUpdate({
             _id: userId
         }, updateStatus, {
             new: true,
             runValidators: true
         });
-        return updateStatus;
     }
     async updateProfile(updateProfile, userId) {
         if (!mongoose.isValidObjectId(userId))
@@ -43,10 +42,10 @@ let UserService = class UserService {
         });
     }
 };
-UserService = __decorate([
+AccountsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
     __metadata("design:paramtypes", [mongoose.Model])
-], UserService);
-exports.UserService = UserService;
-//# sourceMappingURL=users.service.js.map
+], AccountsService);
+exports.AccountsService = AccountsService;
+//# sourceMappingURL=accounts.service.js.map
