@@ -1,4 +1,4 @@
-import { IsEmpty, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { IsEmpty, IsEnum, IsNotEmpty, IsString, MinLength } from "class-validator";
 import { User } from "../../auth/schemas/user.schema";
 import { Category } from "../schemas/quizzes.schema";
 import { QuestionDto } from "./question.dto";
@@ -6,10 +6,12 @@ import { QuestionDto } from "./question.dto";
 export class CreateQuizDto {
 
     @IsNotEmpty()
+    @MinLength(3)
     @IsString()
     readonly name : string
 
     @IsNotEmpty()
+    @MinLength(5)
     @IsString()
     readonly description : string
 

@@ -29,22 +29,22 @@ let QuizzesService = class QuizzesService {
                 $options: 'i'
             }
         } : {};
-        const quizzes = await this.quizzesModel.find(Object.assign({}, keyword));
+        const quizzes = await this.quizzesModel.find(Object.assign({}, keyword)).populate('user', 'fullname');
         return quizzes;
     }
     async get(id) {
         if (!mongoose_2.default.isValidObjectId(id))
             throw new exceptions_1.BadRequestException('Incorrect id.');
-        const quiz = await this.quizzesModel.findById(id);
+        const quiz = await this.quizzesModel.findById(id).populate('user', 'fullname');
         if (!quiz) {
             throw new common_1.NotFoundException('Quiz not found!');
         }
         return quiz;
     }
     async create(newQuiz, user) {
-        console.log(newQuiz);
         const data = Object.assign(newQuiz, { user: user._id });
         const quiz = await this.quizzesModel.create(data);
+        await quiz.populate('user', 'fullname');
         return quiz;
     }
     async deleteByUser(id, userId) {

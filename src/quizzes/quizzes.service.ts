@@ -24,7 +24,7 @@ export class QuizzesService {
             }
         } : {}
 
-        const quizzes = await this.quizzesModel.find({ ...keyword })
+        const quizzes = await this.quizzesModel.find({ ...keyword }).populate('user', 'fullname')
         return quizzes
     }
 
@@ -32,7 +32,8 @@ export class QuizzesService {
     async get(id: string) : Promise<Quizzes> {
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
-        const quiz = await this.quizzesModel.findById(id)
+        const quiz = await this.quizzesModel.findById(id).populate('user', 'fullname')
+
         if(!quiz){
             throw new NotFoundException('Quiz not found!')
         }
@@ -41,11 +42,11 @@ export class QuizzesService {
 
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
-        console.log(newQuiz)
         const data = Object.assign(newQuiz, {user: user._id})
         
         const quiz = await this.quizzesModel.create(data)
 
+        await quiz.populate('user', 'fullname')
         return quiz
     }
 

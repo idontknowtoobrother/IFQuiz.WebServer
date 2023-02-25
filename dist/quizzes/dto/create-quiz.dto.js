@@ -20,11 +20,13 @@ class CreateQuizDto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(3),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateQuizDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.MinLength)(5),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateQuizDto.prototype, "description", void 0);
