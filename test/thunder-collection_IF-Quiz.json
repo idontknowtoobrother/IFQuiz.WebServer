@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "IF-Quiz",
-    "dateExported": "2023-02-25T07:44:43.565Z",
+    "dateExported": "2023-02-25T11:23:00.342Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -64,6 +64,36 @@
                 "type": "json",
                 "raw": "{\n    \"email\": \"testx@gmail.com\",\n    \"password\": \"12345xwe2\"\n}",
                 "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b2367f8b-8a56-4777-9332-71637b7b1f72",
+            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
+            "containerId": "",
+            "name": "Upload Profile Image",
+            "url": "http://localhost:3000/file/upload/profile-image",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2023-02-25T10:00:04.013Z",
+            "modified": "2023-02-25T11:22:50.464Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMyMjUwMiwiZXhwIjoxNjc3NDk1MzAyfQ.OjBhoR56bpNSjpDGd25eE3K26JYsWhU3xVu4cE-pWXE"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [],
+                "files": [
+                    {
+                        "name": "profile-image",
+                        "value": "d:\\[ Pictures ]\\270040687_734421277530170_7796251460781359228_n.jpg"
+                    }
+                ]
             },
             "tests": []
         },
@@ -175,7 +205,7 @@
             "method": "PATCH",
             "sortNum": 90000,
             "created": "2023-02-24T22:36:58.667Z",
-            "modified": "2023-02-24T22:42:45.601Z",
+            "modified": "2023-02-25T10:04:38.398Z",
             "headers": [],
             "params": [],
             "body": {
@@ -185,7 +215,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fMeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fM"
             },
             "tests": []
         }
