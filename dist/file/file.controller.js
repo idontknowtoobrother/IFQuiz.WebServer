@@ -19,6 +19,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const path = require("path");
 const file_service_1 = require("./file.service");
+const uuid_1 = require("uuid");
 let FileController = class FileController {
     constructor(fileService) {
         this.fileService = fileService;
@@ -36,7 +37,7 @@ __decorate([
         storage: (0, multer_1.diskStorage)({
             destination: 'resources/profile-image',
             filename: (req, file, cb) => {
-                const filename = path.parse(file.originalname).name.replace(/\s/g, '');
+                const filename = (0, uuid_1.v4)();
                 const ext = path.parse(file.originalname).ext;
                 cb(null, `${filename}${ext}`);
             }

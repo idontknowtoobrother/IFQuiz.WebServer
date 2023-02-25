@@ -3,8 +3,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
-import { User } from 'src/auth/schemas/user.schema';
 import { FileService } from './file.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller('file')
 export class FileController {
@@ -16,7 +16,7 @@ export class FileController {
         storage: diskStorage({
             destination: 'resources/profile-image',
             filename: (req, file, cb) => {
-                const filename = path.parse(file.originalname).name.replace(/\s/g, '')
+                const filename = uuidv4()
                 const ext = path.parse(file.originalname).ext
                 cb(null, `${filename}${ext}`)
             }
@@ -30,7 +30,7 @@ export class FileController {
         @UploadedFile()
         file: Express.Multer.File
     ){
-        
+
         return res.status(200).json({
             filePath: file.path
         })
