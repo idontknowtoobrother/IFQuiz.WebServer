@@ -41,6 +41,10 @@ __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'User' }),
     __metadata("design:type", user_schema_1.User)
 ], Quizzes.prototype, "user", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: true }),
+    __metadata("design:type", Array)
+], Quizzes.prototype, "questions", void 0);
 Quizzes = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Quizzes);

@@ -1,6 +1,7 @@
 import { IsEmpty, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { User } from "../../auth/schemas/user.schema";
 import { Category } from "../schemas/quizzes.schema";
+import { QuestionDto } from "./question.dto";
 
 export class CreateQuizDto {
 
@@ -20,6 +21,8 @@ export class CreateQuizDto {
     readonly user: User
 
     // @ TODO MORE
-    // Question : Object
+    // questions : QuestionDto[]
+    @IsNotEmpty()
+    readonly questions: QuestionDto[] = [];
 
 }

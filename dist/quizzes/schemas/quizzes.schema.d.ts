@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "../../auth/schemas/user.schema";
+import { QuestionDto } from "../dto/question.dto";
 export declare enum Category {
     MATH = "Mathematics",
     SCIENCE = "Science",
@@ -14,5 +15,6 @@ export declare class Quizzes {
     description: string;
     category: Category;
     user: User;
+    questions: QuestionDto[];
 }
 export declare const QuizzesSchema: mongoose.Schema<Quizzes, mongoose.Model<Quizzes, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Quizzes>;

@@ -41,7 +41,7 @@ export class QuizzesService {
 
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
-
+        console.log(newQuiz)
         const data = Object.assign(newQuiz, {user: user._id})
         
         const quiz = await this.quizzesModel.create(data)

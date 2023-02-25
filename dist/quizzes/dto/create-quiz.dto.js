@@ -14,6 +14,9 @@ const class_validator_1 = require("class-validator");
 const user_schema_1 = require("../../auth/schemas/user.schema");
 const quizzes_schema_1 = require("../schemas/quizzes.schema");
 class CreateQuizDto {
+    constructor() {
+        this.questions = [];
+    }
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
@@ -34,5 +37,9 @@ __decorate([
     (0, class_validator_1.IsEmpty)({ message: "Can't pass user id." }),
     __metadata("design:type", user_schema_1.User)
 ], CreateQuizDto.prototype, "user", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Array)
+], CreateQuizDto.prototype, "questions", void 0);
 exports.CreateQuizDto = CreateQuizDto;
 //# sourceMappingURL=create-quiz.dto.js.map

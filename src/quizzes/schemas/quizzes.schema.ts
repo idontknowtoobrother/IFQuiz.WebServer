@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 import { User } from "../../auth/schemas/user.schema";
+import { QuestionDto } from "../dto/question.dto";
 
 
 export enum Category {
@@ -27,6 +28,9 @@ export class Quizzes {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: User
+
+    @Prop({required: true})
+    questions: QuestionDto[]
 
 
     // @ TODO MORE
