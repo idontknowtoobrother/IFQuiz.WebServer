@@ -1,10 +1,12 @@
-import { Controller, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
 import { FileService } from './file.service';
 import { v4 as uuidv4 } from 'uuid';
+import { join } from 'path';
+import { Observable, of } from 'rxjs';
 
 @Controller('file')
 export class FileController {
@@ -31,6 +33,15 @@ export class FileController {
         return {
             profileImage: await this.fileService.updateProfileImage(req.user._id, file.filename)
         }
+    }
+
+    @Get('/get/profile-image')
+    @UseGuards(AuthGuard())
+    getProfileImage(
+        @Req() req,
+        @Res() res
+    ):Observable<Object>{       
+        return of(res.sendFile(join(process.cwd(),'./resources/profile-image/' + req.user.profileImage )))
     }
 
 }
