@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "IF-Quiz",
-    "dateExported": "2023-02-25T07:06:06.647Z",
+    "dateExported": "2023-02-25T07:44:43.565Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -33,7 +33,7 @@
             "method": "POST",
             "sortNum": 15000,
             "created": "2023-02-01T12:40:43.857Z",
-            "modified": "2023-02-25T06:26:46.517Z",
+            "modified": "2023-02-25T07:09:35.565Z",
             "headers": [
                 {
                     "name": "Authorization",
@@ -43,7 +43,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"name\": \"To be Scieneist\",\n    \"description\": \"description of quiz\",\n    \"category\": \"Science\"\n}",
+                "raw": "{\n    \"name\": \"a\",\n    \"description\": \"description of quiz\",\n    \"category\": \"Mathematics\"\n}",
                 "form": []
             },
             "tests": []
