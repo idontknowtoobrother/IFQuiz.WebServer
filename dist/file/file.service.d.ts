@@ -1,4 +1,7 @@
+import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
 export declare class FileService {
-    getUserId(user: User): Promise<String>;
+    private userModel;
+    constructor(userModel: Model<User>);
+    updateProfileImage(userId: string, newImagePath: string): Promise<String>;
 }

@@ -37,10 +37,12 @@ let AuthService = class AuthService {
             id: user._id
         });
         const responeUser = {
+            _id: user._id,
             email: user.email,
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
+            profileImage: user.profileImage,
             token: token
         };
         return responeUser;
@@ -59,10 +61,12 @@ let AuthService = class AuthService {
             id: user._id
         });
         const responeUser = {
+            _id: user._id,
             email: user.email,
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
+            profileImage: user.profileImage,
             token: token
         };
         return responeUser;

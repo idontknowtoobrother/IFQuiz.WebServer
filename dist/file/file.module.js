@@ -11,12 +11,17 @@ const common_1 = require("@nestjs/common");
 const file_service_1 = require("./file.service");
 const file_controller_1 = require("./file.controller");
 const auth_module_1 = require("../auth/auth.module");
+const mongoose_1 = require("@nestjs/mongoose");
+const user_schema_1 = require("../auth/schemas/user.schema");
 let FileModule = class FileModule {
 };
 FileModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            mongoose_1.MongooseModule.forFeature([
+                { name: "User", schema: user_schema_1.UserSchema }
+            ])
         ],
         providers: [file_service_1.FileService],
         controllers: [file_controller_1.FileController]

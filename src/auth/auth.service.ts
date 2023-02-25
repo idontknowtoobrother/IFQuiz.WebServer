@@ -33,10 +33,12 @@ export class AuthService {
         })
 
         const responeUser = {
+            _id: user._id,
             email: user.email,
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
+            profileImage: user.profileImage,
             token: token
         }
 
@@ -63,10 +65,12 @@ export class AuthService {
         })
 
         const responeUser = {
+            _id: user._id,
             email: user.email,
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
+            profileImage: user.profileImage,
             token: token
         }
 

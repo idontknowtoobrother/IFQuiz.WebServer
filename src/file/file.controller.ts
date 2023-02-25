@@ -22,18 +22,15 @@ export class FileController {
             }
         })
     }))
-    uploadProfileImage(
+    async uploadProfileImage(
         @Req()
         req,
-        @Res()
-        res,
         @UploadedFile()
         file: Express.Multer.File
     ){
-
-        return res.status(200).json({
-            filePath: file.path
-        })
+        return {
+            profileImage: await this.fileService.updateProfileImage(req.user._id, file.filename)
+        }
     }
 
 }

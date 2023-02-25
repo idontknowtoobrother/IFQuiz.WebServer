@@ -24,10 +24,10 @@ let FileController = class FileController {
     constructor(fileService) {
         this.fileService = fileService;
     }
-    uploadProfileImage(req, res, file) {
-        return res.status(200).json({
-            filePath: file.path
-        });
+    async uploadProfileImage(req, file) {
+        return {
+            profileImage: await this.fileService.updateProfileImage(req.user._id, file.filename)
+        };
     }
 };
 __decorate([
@@ -44,11 +44,10 @@ __decorate([
         })
     })),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __param(2, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
 ], FileController.prototype, "uploadProfileImage", null);
 FileController = __decorate([
     (0, common_1.Controller)('file'),

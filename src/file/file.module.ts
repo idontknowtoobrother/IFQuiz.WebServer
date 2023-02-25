@@ -7,7 +7,10 @@ import { UserSchema } from 'src/auth/schemas/user.schema';
 
 @Module({
   imports: [
-    AuthModule
+    AuthModule,
+    MongooseModule.forFeature([
+      { name: "User", schema: UserSchema}
+    ])
   ],
   providers: [FileService],
   controllers: [FileController]
