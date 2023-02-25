@@ -13,6 +13,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const auth_module_1 = require("./auth/auth.module");
 const quizzes_module_1 = require("./quizzes/quizzes.module");
 const accounts_module_1 = require("./accounts/accounts.module");
+const file_module_1 = require("./file/file.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -25,7 +26,7 @@ AppModule = __decorate([
             mongoose_1.MongooseModule.forRoot(process.env.DB_URI),
             auth_module_1.AuthModule,
             quizzes_module_1.QuizzesModule,
-            accounts_module_1.AccountsModule
+            accounts_module_1.AccountsModule, file_module_1.FileModule
         ],
         controllers: [],
         providers: [],
