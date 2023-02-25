@@ -20,6 +20,8 @@ const multer_1 = require("multer");
 const path = require("path");
 const file_service_1 = require("./file.service");
 const uuid_1 = require("uuid");
+const path_1 = require("path");
+const rxjs_1 = require("rxjs");
 let FileController = class FileController {
     constructor(fileService) {
         this.fileService = fileService;
@@ -28,6 +30,10 @@ let FileController = class FileController {
         return {
             profileImage: await this.fileService.updateProfileImage(req.user._id, file.filename)
         };
+    }
+    getProfileImage(req, res) {
+        console.log(req.user);
+        return (0, rxjs_1.of)(res.sendFile((0, path_1.join)(process.cwd(), './resources/profile-image/' + req.user.profileImage)));
     }
 };
 __decorate([
@@ -49,6 +55,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], FileController.prototype, "uploadProfileImage", null);
+__decorate([
+    (0, common_1.Get)('/get/profile-image'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], FileController.prototype, "getProfileImage", null);
 FileController = __decorate([
     (0, common_1.Controller)('file'),
     __metadata("design:paramtypes", [file_service_1.FileService])
