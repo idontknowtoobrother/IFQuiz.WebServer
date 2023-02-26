@@ -17,4 +17,4 @@ export declare class Quizzes {
     user: User;
     questions: QuestionDto[];
 }
-export declare const QuizzesSchema: mongoose.Schema<Quizzes, mongoose.Model<Quizzes, any, any, any>, any, any>;
+export declare const QuizzesSchema: mongoose.Schema<Quizzes, mongoose.Model<Quizzes, any, any, any, any>, {}, {}, {}, {}, mongoose.DefaultSchemaOptions, Quizzes>;

@@ -52,7 +52,8 @@ __decorate([
                 cb(null, true);
             else
                 cb(new multer_1.MulterError('LIMIT_UNEXPECTED_FILE', 'image'), false);
-        }
+        },
+        limits: { fileSize: 4e+6 },
     })),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.UploadedFile)()),

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Param, ParseFilePipeBuilder, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get,Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
@@ -7,6 +7,7 @@ import { FileService } from './file.service';
 import { v4 as uuidv4 } from 'uuid';
 import { join } from 'path';
 import { Observable, of } from 'rxjs';
+
 
 
 @Controller('file')
@@ -18,7 +19,7 @@ export class FileController {
     @UseInterceptors(FileInterceptor('profile-image', {
         storage: diskStorage({
             destination: 'resources/profile-image',
-            filename: (req, file, cb) => { 
+            filename: (req, file, cb) => {
                 const filename = uuidv4()
                 const ext = path.parse(file.originalname).ext
                 cb(null, `${filename}${ext}`)
@@ -29,6 +30,7 @@ export class FileController {
                 cb(null, true);
             else cb(new MulterError('LIMIT_UNEXPECTED_FILE', 'image'), false);
         }
+        ,limits: {fileSize: 4e+6},
     }
     ))
     async uploadProfileImage(
