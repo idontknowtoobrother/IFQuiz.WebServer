@@ -32,7 +32,6 @@ let FileController = class FileController {
         };
     }
     getProfileImage(req, res) {
-        console.log(req.user);
         return (0, rxjs_1.of)(res.sendFile((0, path_1.join)(process.cwd(), './resources/profile-image/' + req.user.profileImage)));
     }
 };
