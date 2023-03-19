@@ -1,12 +1,13 @@
-import { Controller, Get,Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get,Header,Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
 import * as path from 'path';
 import { FileService } from './file.service';
 import { v4 as uuidv4 } from 'uuid';
+import { Observable } from 'rxjs';
+import { createReadStream } from 'fs';
 import { join } from 'path';
-import { Observable, of } from 'rxjs';
 
 
 
@@ -48,9 +49,12 @@ export class FileController {
     @UseGuards(AuthGuard())
     getProfileImage(
         @Req() req,
-        @Res() res
-    ): Observable<Object> {
-        return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
+        // @Res() res
+    ): StreamableFile {
+
+        const file = createReadStream(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl));
+        return new StreamableFile(file);
+        // return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
         // return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
     }
 
