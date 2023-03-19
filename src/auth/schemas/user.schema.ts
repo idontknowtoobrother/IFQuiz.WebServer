@@ -24,7 +24,13 @@ export class User extends Document {    // @F1 : extends it by Document
     birthday : Date
 
     @Prop({default: null})
-    profileImage : string
+    imageUrl : string
+
+    @Prop({default: true})
+    backgroundMusic : boolean
+
+    @Prop({default: true})
+    soundEffect : boolean
 
 }
 

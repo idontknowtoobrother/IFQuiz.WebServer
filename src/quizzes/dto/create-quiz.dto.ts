@@ -22,8 +22,6 @@ export class CreateQuizDto {
     @IsEmpty({ message: "Can't pass user id."}) // Author
     readonly user: User
 
-    // @ TODO MORE
-    // questions : QuestionDto[]
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 

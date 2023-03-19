@@ -38,7 +38,7 @@ export class AuthService {
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
-            profileImage: user.profileImage,
+            imageUrl: user.imageUrl,
             token: token
         }
 
@@ -70,7 +70,7 @@ export class AuthService {
             fullname: user.fullname,
             status: user.status,
             birthday: user.birthday,
-            profileImage: user.profileImage,
+            imageUrl: user.imageUrl,
             token: token
         }
 

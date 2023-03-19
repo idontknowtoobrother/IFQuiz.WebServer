@@ -13,15 +13,15 @@ export class FileService {
 
 
     async updateProfileImage(userId: string, newImagePath: string): Promise<String>{
-        const user = await this.userModel.findById(userId, 'profileImage')
-        if(user.profileImage){
-            fs.unlink(`./resources/profile-image/${user.profileImage}`, (err) => {})
+        const user = await this.userModel.findById(userId, 'imageUrl')
+        if(user.imageUrl){
+            fs.unlink(`./resources/profile-image/${user.imageUrl}`, (err) => {})
         }
 
         await this.userModel.findOneAndUpdate({
             _id: userId
         },{
-            profileImage: newImagePath
+            imageUrl: newImagePath
         },{
             new: true,
             runValidators: true

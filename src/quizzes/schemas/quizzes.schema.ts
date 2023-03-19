@@ -29,6 +29,9 @@ export class Quizzes {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: User
 
+    @Prop({ required: true})
+    hideCorrectAnswer: boolean
+
     @Prop({required: true})
     questions: QuestionDto[]
 
