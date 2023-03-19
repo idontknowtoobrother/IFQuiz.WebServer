@@ -2,8 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../auth/schemas/user.schema';
+import * as bcrypt from 'bcryptjs';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { Messages } from '../utils/dto/message.dto';
 
 @Injectable()
 export class AccountsService {
@@ -35,6 +38,24 @@ export class AccountsService {
             new: true,
             runValidators: true
         })
+    }
+
+    async changePassword(changePasswordDto: ChangePasswordDto, userId: string): Promise<Messages>{
+        const { password } = changePasswordDto;
+        const hashedPassword = await bcrypt.hash(password, 10)
+        await this.userModel.findOneAndUpdate({
+            _id: userId
+        }, {
+            password: hashedPassword
+        }, {
+            new: true,
+            runValidators: true
+        })
+        return {
+            message: [
+                'Password updated.'
+            ]
+        }
     }
 
 }

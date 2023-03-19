@@ -40,7 +40,7 @@ export class FileController {
         file: Express.Multer.File
     ) {
         return {
-            profileImage: await this.fileService.updateProfileImage(req.user._id, file.filename)
+            imageUrl: await this.fileService.updateProfileImage(req.user._id, file.filename)
         }
     }
 
@@ -50,7 +50,7 @@ export class FileController {
         @Req() req,
         @Res() res
     ): Observable<Object> {
-        return of(res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.profileImage)))
+        return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
     }
 
 }

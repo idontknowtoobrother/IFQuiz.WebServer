@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "IF-Quiz",
-    "dateExported": "2023-03-19T15:42:42.891Z",
+    "dateExported": "2023-03-19T15:06:59.935Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -57,12 +57,12 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-02-01T10:58:47.929Z",
-            "modified": "2023-03-19T15:42:30.044Z",
+            "modified": "2023-02-25T06:39:24.194Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"email\": \"testx@gmail.com\",\n    \"password\": \"AXkuys@1x23\"\n}",
+                "raw": "{\n    \"email\": \"testx@gmail.com\",\n    \"password\": \"12345xwe2\"\n}",
                 "form": []
             },
             "tests": []
@@ -76,11 +76,11 @@
             "method": "POST",
             "sortNum": 25000,
             "created": "2023-02-25T10:00:04.013Z",
-            "modified": "2023-03-19T15:27:14.024Z",
+            "modified": "2023-02-25T11:22:50.464Z",
             "headers": [
                 {
                     "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTIzOTU5MCwiZXhwIjoxNjc5NDEyMzkwfQ.2jl0HlsBDsQv16BfOYAHpv3wNK2h_tAjRHml2v6fDKk"
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMyMjUwMiwiZXhwIjoxNjc3NDk1MzAyfQ.OjBhoR56bpNSjpDGd25eE3K26JYsWhU3xVu4cE-pWXE"
                 }
             ],
             "params": [],
@@ -91,29 +91,10 @@
                 "files": [
                     {
                         "name": "profile-image",
-                        "value": "d:\\[ Pictures ]\\AFU\\AFU-Logo.png"
+                        "value": "d:\\[ Pictures ]\\270040687_734421277530170_7796251460781359228_n.jpg"
                     }
                 ]
             },
-            "tests": []
-        },
-        {
-            "_id": "fe871f87-da06-43ab-a1b9-58db6e5f18d5",
-            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
-            "containerId": "",
-            "name": "Get Profile Image",
-            "url": "http://localhost:3000/file/get/profile-image",
-            "method": "GET",
-            "sortNum": 27500,
-            "created": "2023-03-19T15:25:35.323Z",
-            "modified": "2023-03-19T15:27:28.880Z",
-            "headers": [
-                {
-                    "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTIzOTU5MCwiZXhwIjoxNjc5NDEyMzkwfQ.2jl0HlsBDsQv16BfOYAHpv3wNK2h_tAjRHml2v6fDKk"
-                }
-            ],
-            "params": [],
             "tests": []
         },
         {
@@ -235,29 +216,6 @@
             "auth": {
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fMeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fM"
-            },
-            "tests": []
-        },
-        {
-            "_id": "dc82fba5-be06-4cb2-acfb-4499e6bea3ad",
-            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
-            "containerId": "",
-            "name": "Change Password",
-            "url": "http://localhost:3000/accounts/change-password",
-            "method": "PATCH",
-            "sortNum": 100000,
-            "created": "2023-03-19T15:36:25.322Z",
-            "modified": "2023-03-19T15:39:10.502Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n    \"password\": \"AXkuys@1x23\"\n}",
-                "form": []
-            },
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTI0MDMxOCwiZXhwIjoxNjc5NDEzMTE4fQ.iqulaLpMwmNt5KbXoFhjFXMoDYrOILgA_clCVRIoGf4"
             },
             "tests": []
         }
