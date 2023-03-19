@@ -49,10 +49,14 @@ export class FileController {
     @UseGuards(AuthGuard())
     getProfileImage(
         @Req() req,
-        // @Res() res
+        @Res({ passthrough: true }) res
     ): StreamableFile {
-
         const file = createReadStream(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl));
+        const fileType = req.user.imageUrl.match(/\.([^.]+)$/)[1];
+        res.set({
+            'Content-Type': `image/${fileType}`,
+            'Content-Disposition': `attachment; filename="${req.user.imageUrl}"`,
+        })
         return new StreamableFile(file);
         // return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
         // return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
