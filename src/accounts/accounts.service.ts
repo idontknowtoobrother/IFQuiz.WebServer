@@ -16,28 +16,31 @@ export class AccountsService {
         private userModel: mongoose.Model<User>
     ){}
 
-    async updateStatus(updateStatus: UpdateStatusDto, userId: string): Promise<User> {
+    async updateStatus(updateStatus: UpdateStatusDto, userId: string): Promise<UpdateStatusDto> {
         if(!mongoose.isValidObjectId(userId)) throw new BadRequestException('Incorrect id.')
 
-        return await this.userModel.findOneAndUpdate({
+        await this.userModel.findOneAndUpdate({
             _id: userId
         }, updateStatus ,{
             new: true,
             runValidators: true
         })
-        
+
+        return updateStatus
     }
 
 
-    async updateProfile(updateProfile: UpdateProfileDto, userId: string): Promise<User> {
+    async updateProfile(updateProfile: UpdateProfileDto, userId: string): Promise<UpdateProfileDto> {
         if(!mongoose.isValidObjectId(userId)) throw new BadRequestException('incorrect id.')
         
-        return await this.userModel.findOneAndUpdate({
+        await this.userModel.findOneAndUpdate({
             _id: userId
         },updateProfile, {
             new: true,
             runValidators: true
         })
+
+        return updateProfile
     }
 
     async changePassword(changePasswordDto: ChangePasswordDto, userId: string): Promise<Messages>{

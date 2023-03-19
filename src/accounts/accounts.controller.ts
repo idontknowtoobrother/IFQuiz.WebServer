@@ -19,7 +19,7 @@ export class AccountsController {
         updateStatusDto: UpdateStatusDto,
         @Req()
         req
-    ): Promise<User>{
+    ): Promise<UpdateStatusDto>{
         return this.userService.updateStatus(updateStatusDto, req.user._id)
     }
 
@@ -31,7 +31,7 @@ export class AccountsController {
         updateProfileDto: UpdateProfileDto,
         @Req()
         req
-    ): Promise<User>{
+    ): Promise<UpdateProfileDto>{
         return this.userService.updateProfile(updateProfileDto, req.user._id)
     }
 
