@@ -25,15 +25,14 @@ export class FileController {
                 const ext = path.parse(file.originalname).ext
                 cb(null, `${filename}${ext}`)
             },
-        })
-        , fileFilter: (req, file, cb) => {
+        }), 
+        fileFilter: (req, file, cb) => {
             if (file.originalname.match(/^.*\.(jpg|png|jpeg|gif)$/))
                 cb(null, true);
             else cb(new MulterError('LIMIT_UNEXPECTED_FILE', 'image'), false);
-        }
-        ,limits: {fileSize: 4e+6},
-    }
-    ))
+        },
+        limits: {fileSize: 4e+6},
+    }))
     async uploadProfileImage(
         @Req()
         req,
@@ -51,6 +50,10 @@ export class FileController {
         @Req() req,
         @Res({ passthrough: true }) res
     ): StreamableFile {
+        if(!req.user.imageUrl){
+            res.status(200)
+            return 
+        }
         const file = createReadStream(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl));
         const fileType = req.user.imageUrl.match(/\.([^.]+)$/)[1];
         res.set({
