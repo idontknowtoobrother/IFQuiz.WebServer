@@ -50,7 +50,8 @@ export class FileController {
         @Req() req,
         @Res() res
     ): Observable<Object> {
-        return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
+        return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
+        // return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
     }
 
 }
