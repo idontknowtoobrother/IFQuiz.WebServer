@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, IsEmpty, IsNotEmpty } from "class-validator";
+import { IsEnum, IsOptional, IsString, IsEmpty, IsNotEmpty, IsBoolean } from "class-validator";
 import { User } from "../../auth/schemas/user.schema";
 import { Category } from "../schemas/quizzes.schema";
 import { QuestionDto } from "./question.dto";
@@ -20,8 +20,10 @@ export class UpdateQuizDto {
     @IsEmpty({ message: "Can't pass user id."}) // Author
     readonly user: User
     
-    // @ TODO MORE
-    // Question : Object
+    @IsOptional()
+    @IsBoolean()
+    readonly hideCorrectAnswer: boolean
+
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 

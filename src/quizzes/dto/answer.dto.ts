@@ -12,9 +12,9 @@ export enum FillTypes {
     CONTAINS = 'contains'
 }
 
-class Answers {}
+export class Answers {}
 
-class Answer {
+export class Answer {
 
     @Prop({required: true})
     @IsString()
