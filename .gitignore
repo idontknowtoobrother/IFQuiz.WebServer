@@ -1,6 +1,7 @@
 # dependencies
-node_modules/
+node_modules
 .aicommits
+package-lock.json
 
 # Build File
 /dist
