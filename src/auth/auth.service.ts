@@ -39,6 +39,8 @@ export class AuthService {
             status: user.status,
             birthday: user.birthday,
             imageUrl: user.imageUrl,
+            backgroundMusic: user.backgroundMusic,
+            soundEffect: user.soundEffect,
             token: token
         }
 
@@ -71,6 +73,8 @@ export class AuthService {
             status: user.status,
             birthday: user.birthday,
             imageUrl: user.imageUrl,
+            backgroundMusic: user.backgroundMusic,
+            soundEffect: user.soundEffect,
             token: token
         }
 
