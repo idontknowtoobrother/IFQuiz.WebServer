@@ -1,5 +1,5 @@
 import { Body, Controller, Req, UseGuards } from '@nestjs/common';
-import { Patch } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Delete, Patch } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/auth/schemas/user.schema';
 import { Messages } from '../utils/dto/message.dto';
@@ -44,6 +44,16 @@ export class AccountsController {
         req
     ): Promise<Messages>{
         return this.userService.changePassword(changePasswordDto, req.user._id)
+    }
+
+
+    @Delete('')
+    @UseGuards(AuthGuard())
+    async deleteAccount(
+        @Req()
+        req
+    ): Promise<Messages>{
+        return this.userService.deleteAccount(req.user._id)
     }
 
 }

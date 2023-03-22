@@ -9,7 +9,7 @@ export class Explanation {
     @IsNotEmpty()
     @MinLength(5)
     @IsString()
-    readonly explanation: string
+    readonly explain: string
 
     @IsOptional()
     @IsUrl()

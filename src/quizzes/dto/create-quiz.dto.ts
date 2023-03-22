@@ -1,3 +1,4 @@
+import { Prop } from "@nestjs/mongoose";
 import { IsBoolean, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { User } from "../../auth/schemas/user.schema";
 import { Category } from "../schemas/quizzes.schema";
@@ -24,6 +25,7 @@ export class CreateQuizDto {
 
     @IsOptional()
     @IsBoolean()
+    @Prop({default: false})
     readonly hideCorrectAnswer: boolean
 
     @IsNotEmpty()

@@ -52,11 +52,27 @@ export class AccountsService {
             password: hashedPassword
         }, {
             new: true,
-            runValidators: true
+            runValidators:true
         })
         return {
             message: [
                 'Password updated.'
+            ]
+        }
+    }
+
+    async deleteAccount(userId: string): Promise<Messages> {
+        
+        await this.userModel.findByIdAndDelete({
+            _id: userId
+        },{
+            new: true,
+            runValidators: true
+        })
+
+        return {
+            message: [
+                'Deleted account.'
             ]
         }
     }

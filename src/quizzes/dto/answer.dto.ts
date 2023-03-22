@@ -19,7 +19,7 @@ export class Answer {
     @Prop({required: true})
     @IsString()
     @MinLength(8)
-    readonly explanation : string
+    readonly explain : string
 
     @IsOptional()
     @IsString()
@@ -66,7 +66,7 @@ export class Fill {
 
     @Prop({required: true})
     @IsNotEmpty()
-    readonly matchString: string
+    readonly matchString: string[]
 
 }
 

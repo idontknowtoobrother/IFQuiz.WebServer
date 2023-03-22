@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "IF-Quiz",
-    "dateExported": "2023-03-19T15:42:42.891Z",
+    "dateExported": "2023-03-22T10:27:36.049Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -20,30 +20,6 @@
             "body": {
                 "type": "json",
                 "raw": "{\n    \"email\": \"testx@gmail.com\",\n    \"password\": \"12345xwe2\",\n    \"fullname\": \"firstname lastname\",\n    \"birthday\": \"2012-04-23T18:25:43.511Z\"\n}",
-                "form": []
-            },
-            "tests": []
-        },
-        {
-            "_id": "2d10b7d7-3159-404b-9f69-60182cd3bc1d",
-            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
-            "containerId": "",
-            "name": "Create Quiz",
-            "url": "http://localhost:3000/quizzes/create",
-            "method": "POST",
-            "sortNum": 15000,
-            "created": "2023-02-01T12:40:43.857Z",
-            "modified": "2023-02-25T07:09:35.565Z",
-            "headers": [
-                {
-                    "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
-                }
-            ],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n    \"name\": \"a\",\n    \"description\": \"description of quiz\",\n    \"category\": \"Mathematics\"\n}",
                 "form": []
             },
             "tests": []
@@ -76,7 +52,7 @@
             "method": "POST",
             "sortNum": 25000,
             "created": "2023-02-25T10:00:04.013Z",
-            "modified": "2023-03-19T15:27:14.024Z",
+            "modified": "2023-03-19T17:36:20.516Z",
             "headers": [
                 {
                     "name": "Authorization",
@@ -106,7 +82,7 @@
             "method": "GET",
             "sortNum": 27500,
             "created": "2023-03-19T15:25:35.323Z",
-            "modified": "2023-03-19T15:27:28.880Z",
+            "modified": "2023-03-19T16:48:26.376Z",
             "headers": [
                 {
                     "name": "Authorization",
@@ -145,54 +121,6 @@
             "tests": []
         },
         {
-            "_id": "85a3d028-0867-4444-b813-ff1dbb1e8d52",
-            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
-            "containerId": "",
-            "name": "Delete Quiz",
-            "url": "http://localhost:3000/quizzes/63f9a217afe9402ef759e7b6",
-            "method": "DELETE",
-            "sortNum": 60000,
-            "created": "2023-02-02T03:53:10.467Z",
-            "modified": "2023-02-25T06:20:41.074Z",
-            "headers": [
-                {
-                    "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
-                }
-            ],
-            "params": [],
-            "tests": []
-        },
-        {
-            "_id": "1f39698f-5372-497e-b85a-83c4621aa89a",
-            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
-            "containerId": "",
-            "name": "Update Quiz",
-            "url": "http://localhost:3000/quizzes/63f9a217afe9402ef759e7b6",
-            "method": "PUT",
-            "sortNum": 70000,
-            "created": "2023-02-02T03:53:51.530Z",
-            "modified": "2023-02-25T06:16:06.955Z",
-            "headers": [
-                {
-                    "name": "Authorization",
-                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGEzZGU1M2ZiNjFhZTdiMmQyN2E2NiIsImlhdCI6MTY3NTMyNzA3NiwiZXhwIjoxNjc1NDk5ODc2fQ.vlJB9Gk2b4Zci1Ay2S4Ll2IKe4eyed_PoTLNpSbYWy4",
-                    "isDisabled": true
-                }
-            ],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n    \"name\": \"test upoda\" \n}",
-                "form": []
-            },
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
-            },
-            "tests": []
-        },
-        {
             "_id": "49352124-ee4d-4053-ba49-10771680b0c0",
             "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
             "containerId": "",
@@ -201,7 +129,7 @@
             "method": "PATCH",
             "sortNum": 80000,
             "created": "2023-02-24T22:00:58.676Z",
-            "modified": "2023-02-24T22:38:41.620Z",
+            "modified": "2023-03-19T18:19:38.396Z",
             "headers": [],
             "params": [],
             "body": {
@@ -211,7 +139,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTI0OTk2MSwiZXhwIjoxNjc5NDIyNzYxfQ.1FCdB3708KZ8_EVDXLcSU2MdaI2TW8wEJB8fWggQqbo"
             },
             "tests": []
         },
@@ -224,17 +152,17 @@
             "method": "PATCH",
             "sortNum": 90000,
             "created": "2023-02-24T22:36:58.667Z",
-            "modified": "2023-02-25T10:04:38.398Z",
+            "modified": "2023-03-19T18:29:38.526Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"email\": \"newemailEdited@gmail.com\",\n    \"status\": \"new status edited\"\n}",
+                "raw": "{\n    \"status\": \"xxxxx\",\n    \"fullname\": \"sadxxxxxxx\"\n}",
                 "form": []
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fMeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjlhYzRlMDk2YWJmOTFhYzlmZjZlMSIsImlhdCI6MTY3NzMxOTQ3MCwiZXhwIjoxNjc3NDkyMjcwfQ.Paz_jLQ0zYyHXvqdl9ZbjQs071R_5ST2iceLEgv84fM"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTI0OTk2MSwiZXhwIjoxNjc5NDIyNzYxfQ.1FCdB3708KZ8_EVDXLcSU2MdaI2TW8wEJB8fWggQqbo"
             },
             "tests": []
         },
@@ -247,7 +175,7 @@
             "method": "PATCH",
             "sortNum": 100000,
             "created": "2023-03-19T15:36:25.322Z",
-            "modified": "2023-03-19T15:39:10.502Z",
+            "modified": "2023-03-22T10:06:42.118Z",
             "headers": [],
             "params": [],
             "body": {
@@ -257,8 +185,73 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTI0MDMxOCwiZXhwIjoxNjc5NDEzMTE4fQ.iqulaLpMwmNt5KbXoFhjFXMoDYrOILgA_clCVRIoGf4"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTQ3OTU4OSwiZXhwIjoxNjc5NjUyMzg5fQ.qmtVC6U7Wb4GiKNmplRW1VfyR9f3LXcSE6UeHDkypMo"
             },
+            "tests": []
+        },
+        {
+            "_id": "f1d691dd-e697-47f3-8ea3-262289df4ab6",
+            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
+            "containerId": "",
+            "name": "Create Quiz (Single-Choice, Multiple-Choice and Fill-Choice)",
+            "url": "http://localhost:3000/quizzes/create",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2023-03-22T10:05:49.983Z",
+            "modified": "2023-03-22T10:23:15.217Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"MATH IF\",\n    \"description\": \"This quiz make for Math Informatics test final\",\n    \"category\": \"Mathematics\",\n    \"hideCorrectAnswer\": false,\n    \"questions\": [\n        {\n            \"type\": \"single-choice\",\n            \"timer\": 60,\n            \"points\": 1,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"selectAnswers\": [\n                    {\n                        \"explain\": \"16\"\n                    },\n                    {\n                        \"explain\": \"51\",\n                        \"imageUrl\": \"https://www.theluckyname.com/wp-content/uploads/2022/11/51-300x300.png\"\n                    }\n                ],\n                \"correctAnswer\": 1\n            }\n        },\n        {\n            \"type\": \"multiple-choice\",\n            \"timer\": 120,\n            \"points\": 2,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"selectAnswers\": [\n                    {\n                        \"explain\": \"16\"\n                    },\n                    {\n                        \"explain\": \"51\",\n                        \"imageUrl\": \"https://www.theluckyname.com/wp-content/uploads/2022/11/51-300x300.png\"\n                    }\n                ],\n                \"correctAnswer\": [0, 1]\n            }\n        },\n        {\n            \"type\": \"fill-choice\",\n            \"timer\": 60,\n            \"points\": 5,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"correctAnswer\": [\n                    {\n                        \"type\": \"is-exactly\",\n                        \"matchString\": [\n                            \"Equal\",\n                            \"=\",\n                            \"equal\",\n                            \"เท่ากับ\"\n                        ]\n                    },\n                    {\n                        \"type\": \"contains\",\n                        \"matchString\": [\n                            \"=\",\n                            \"==\"\n                        ]\n                    }\n                ]\n            }\n        }\n    ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTQ3OTU4OSwiZXhwIjoxNjc5NjUyMzg5fQ.qmtVC6U7Wb4GiKNmplRW1VfyR9f3LXcSE6UeHDkypMo"
+            },
+            "tests": []
+        },
+        {
+            "_id": "e720a854-12e6-469c-943f-49c5c7326e45",
+            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
+            "containerId": "",
+            "name": "Update Quiz",
+            "url": "http://localhost:3000/quizzes/641ad79a6b66f25df1962be6",
+            "method": "PUT",
+            "sortNum": 120000,
+            "created": "2023-03-22T10:24:03.604Z",
+            "modified": "2023-03-22T10:26:48.230Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"MATH COOLX\",\n    \"description\": \"This quiz make for Math Informatics test final\",\n    \"category\": \"Mathematics\",\n    \"hideCorrectAnswer\": false,\n    \"questions\": [\n        {\n            \"type\": \"single-choice\",\n            \"timer\": 60,\n            \"points\": 1,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"selectAnswers\": [\n                    {\n                        \"explain\": \"16\"\n                    },\n                    {\n                        \"explain\": \"51\",\n                        \"imageUrl\": \"https://www.theluckyname.com/wp-content/uploads/2022/11/51-300x300.png\"\n                    }\n                ],\n                \"correctAnswer\": 1\n            }\n        },\n        {\n            \"type\": \"multiple-choice\",\n            \"timer\": 120,\n            \"points\": 2,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"selectAnswers\": [\n                    {\n                        \"explain\": \"16\"\n                    },\n                    {\n                        \"explain\": \"51\",\n                        \"imageUrl\": \"https://www.theluckyname.com/wp-content/uploads/2022/11/51-300x300.png\"\n                    }\n                ],\n                \"correctAnswer\": [0, 1]\n            }\n        },\n        {\n            \"type\": \"fill-choice\",\n            \"timer\": 60,\n            \"points\": 5,\n            \"explanation\": {\n                \"explain\": \"Solve this equation\",\n                \"imageUrl\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ExtensionMath_%28cropped%29.svg/800px-ExtensionMath_%28cropped%29.svg.png\"\n            },\n            \"answer\": {\n                \"correctAnswer\": [\n                    {\n                        \"type\": \"is-exactly\",\n                        \"matchString\": [\n                            \"Equal\",\n                            \"=\",\n                            \"equal\",\n                            \"เท่ากับ\"\n                        ]\n                    },\n                    {\n                        \"type\": \"contains\",\n                        \"matchString\": [\n                            \"=\",\n                            \"==\"\n                        ]\n                    }\n                ]\n            }\n        }\n    ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTQ3OTU4OSwiZXhwIjoxNjc5NjUyMzg5fQ.qmtVC6U7Wb4GiKNmplRW1VfyR9f3LXcSE6UeHDkypMo"
+            },
+            "tests": []
+        },
+        {
+            "_id": "85a3d028-0867-4444-b813-ff1dbb1e8d52",
+            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
+            "containerId": "",
+            "name": "Delete Quiz",
+            "url": "http://localhost:3000/quizzes/641ad79a6b66f25df1962be6",
+            "method": "DELETE",
+            "sortNum": 130000,
+            "created": "2023-02-02T03:53:10.467Z",
+            "modified": "2023-03-22T10:27:22.697Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo"
+                }
+            ],
+            "params": [],
             "tests": []
         }
     ]
