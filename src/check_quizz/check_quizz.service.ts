@@ -10,16 +10,12 @@ import { Quizzes } from '../quizzes/schemas/quizzes.schema';
 export class CheckQuizzService {
     constructor(
         @InjectModel(CheckQuizz.name)
-        private checkQuizzModel: Model<CheckQuizz>,
-        @InjectModel(Quizzes.name)
-        private quizzesModel: Model<Quizzes>
+        private checkQuizzModel: Model<CheckQuizz>
     ){}
 
     async checkQuizz(userId: string, quizzAnswer: QuizzAnswerDto): Promise<ScoreDto> {
         const { userAnswer, roomInformation } = quizzAnswer
-        const { _id, questions } = roomInformation
-        const quiz = await this.quizzesModel.findById(_id)
-        if(!quiz) throw new NotFoundException('Quiz not found!')
+        const { questions } = roomInformation
         let score = 0
         for(let i = 0; i < questions.length; i++){
             const question = questions[i]
