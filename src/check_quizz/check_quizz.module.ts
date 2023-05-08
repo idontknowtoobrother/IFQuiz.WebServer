@@ -10,7 +10,7 @@ import { CheckQuizzService } from './check_quizz.service';
   imports: [
     AuthModule,
     MongooseModule.forFeature([
-      { name: "Quizzes", schema: CheckQuizzSchema }
+      { name: "CheckQuizz", schema: CheckQuizzSchema }
     ])
   ],
   controllers: [CheckQuizzController],
