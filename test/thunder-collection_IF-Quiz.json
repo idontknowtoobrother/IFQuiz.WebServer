@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "IF-Quiz",
-    "dateExported": "2023-03-22T10:27:36.049Z",
+    "dateExported": "2023-03-22T11:57:37.394Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -252,6 +252,30 @@
                 }
             ],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "f66d2612-7ee6-49e4-b09f-72f8ade1315a",
+            "colId": "965256f3-b3d1-4ecc-9e63-2a0956c7b0b1",
+            "containerId": "",
+            "name": "Delete Account",
+            "url": "http://localhost:3000/accounts",
+            "method": "DELETE",
+            "sortNum": 140000,
+            "created": "2023-03-22T11:39:00.432Z",
+            "modified": "2023-03-22T11:52:56.342Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjkzNDQ5ODU5MDFiZmUxOTRmN2M1ZCIsImlhdCI6MTY3NzI3NjIzMywiZXhwIjoxNjc3NDQ5MDMzfQ.gp8pBFYYan8OnI3vfD5qLAlQy8ByX8RyGjChFssNIuo",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTcyOWE2NWE4MGRkYjBmNzM4ZGIyZSIsImlhdCI6MTY3OTQ3OTU4OSwiZXhwIjoxNjc5NjUyMzg5fQ.qmtVC6U7Wb4GiKNmplRW1VfyR9f3LXcSE6UeHDkypMo"
+            },
             "tests": []
         }
     ]
