@@ -1,89 +1,83 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { CheckQuizz } from './schemas/check_quizz.schema';
-
-import { Query } from 'express-serve-static-core'
-import { BadRequestException } from '@nestjs/common/exceptions';
-import { User } from '../auth/schemas/user.schema';
+import { QuizzAnswerDto } from './dto/quiz_answer.dto';
+import { ScoreDto } from './dto/score.dto';
+import { Quizzes } from '../quizzes/schemas/quizzes.schema';
 
 @Injectable()
 export class CheckQuizzService {
     constructor(
         @InjectModel(CheckQuizz.name)
-        private quizzesModel: Model<CheckQuizz>
+        private checkQuizzModel: Model<CheckQuizz>,
+        @InjectModel(Quizzes.name)
+        private quizzesModel: Model<Quizzes>
     ){}
 
-    // get all quizzes
-    async getAll(query: Query) : Promise<Quizzes[]>{
-        
-        const keyword = query.name ? {
-            name: {
-                $regex: query.name,
-                $options: 'i'
+    async checkQuizz(userId: string, quizzAnswer: QuizzAnswerDto): Promise<ScoreDto> {
+        const { userAnswer, roomInformation } = quizzAnswer
+        const { _id, questions } = roomInformation
+        const quiz = await this.quizzesModel.findById(_id)
+        if(!quiz) throw new NotFoundException('Quiz not found!')
+        let score = 0
+        for(let i = 0; i < questions.length; i++){
+            const question = questions[i]
+            
+            if (question.type == 'single-choice'){
+                if(question.answer.correctAnswer === userAnswer[i]){
+                    score += question.points
+                }
+                continue;
             }
-        } : {}
 
-        const quizzes = await this.quizzesModel.find({ ...keyword }).populate('user', 'fullname')
-        return quizzes
-    }
+            if(question.type == 'multiple-choice'){
+                let scorediff = question.answer.correctAnswer.length
+                for(let j = 0; j < question.answer.correctAnswer.length; j++){
+                    if(question.answer.correctAnswer.includes(userAnswer[i][j])){
+                        scorediff -= 1
+                    }
+                }
+                if(scorediff <= 0){
+                    score += question.points
+                }
+                continue;
+            }
 
-    // get one quiz ( By Id )
-    async get(id: string) : Promise<Quizzes> {
-        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+            if(question.type == 'fill-choice'){
+                for(const correctAnswer of question.answer.correctAnswer){
+                    if (correctAnswer.type == 'is-exactly'){
+                        const correctAnswerString = correctAnswer.matchString.join(' ')
+                        if(userAnswer[i] == correctAnswerString){
+                            score += question.points
+                            break;
+                        }
+                        continue;
+                    }
 
-        const quiz = await this.quizzesModel.findById(id).populate('user', 'fullname')
-
-        if(!quiz){
-            throw new NotFoundException('Quiz not found!')
-        }
-        return quiz
-    }
-
-    // create quiz
-    async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
-        const data = Object.assign(newQuiz, {user: user._id})
-        
-        const quiz = await this.quizzesModel.create(data)
-
-        await quiz.populate('user', 'fullname')
-        return quiz
-    }
-
-    // delete quiz ( By Id )
-    async deleteByUser(id: string, userId: string) : Promise<string> {
-
-
-        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
-
-        const res = await this.quizzesModel.findOneAndDelete({
-            _id: id,
-            user: userId
-        })
-        
-        if(!res){
-            throw new NotFoundException('Quiz not found or not owned.')
+                    if(correctAnswer.type == 'contains'){
+                        if(correctAnswer.matchString.includes(userAnswer[i])){
+                            score += question.points
+                            break;
+                        }
+                        continue;
+                    }
+                }
+                continue;
+            }
+           
         }
 
-        return 'Quiz deleted.'
-    }
 
-    // update quiz ( By Id )
-    async updateByUser(id: string, updateQuiz: Quizzes, userId: string) : Promise<Quizzes> {
-        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+        const checkedQuizz = {
+            quiz: quizzAnswer,
+            score: score
+        }
+        const data = Object.assign(checkedQuizz, {user: userId})
+    
+        const reponse = await this.checkQuizzModel.create(data)
 
-        return await this.quizzesModel.findOneAndUpdate({
-            _id: id,
-            user: userId
-        }, updateQuiz, {
-            new: true,
-            runValidators: true
-        })
-
-        // return await this.quizzesModel.findByIdAndUpdate(id, updateQuiz, {
-        //     new: true,
-        //     runValidators: true
-        // })
+        return reponse
     }
 
 }
