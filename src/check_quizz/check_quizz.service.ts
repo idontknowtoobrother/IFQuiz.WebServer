@@ -15,7 +15,7 @@ export class CheckQuizzService {
 
     async checkQuizz(userId: string, quizzAnswer: QuizzAnswerDto): Promise<ScoreDto> {
         const { userAnswers, roomInformation } = quizzAnswer
-        let saveUserAnswer = userAnswers
+        const saveUserAnswer = userAnswers as []
         const { questions } = roomInformation
         let score = 0
         for(let i = 0; i < questions.length; i++){
