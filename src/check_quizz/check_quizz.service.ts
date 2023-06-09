@@ -35,7 +35,6 @@ export class CheckQuizzService {
                     for(let indexCurrAns = 0; indexCurrAns < currAns.length; indexCurrAns++){
                         if(correctAns === currAns[indexCurrAns]){
                             userCorrectLength++
-                            currAns.splice(indexCurrAns, 1)
                             break;
                         }
                     }
