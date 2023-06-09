@@ -36,6 +36,9 @@ export class QuestionDto {
 
     @Prop({required: true})
     @IsNotEmpty()
-    readonly answers : Answers
+    readonly answer : Answers
+    
 
+    @Prop({required: true})
+    readonly type : string
 }
