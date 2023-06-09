@@ -12,7 +12,9 @@ export enum FillTypes {
     CONTAINS = 'contains'
 }
 
-export class Answers {}
+export class Answers {
+    correctAnswer: any;
+}
 
 export class Answer {
 

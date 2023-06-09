@@ -18,7 +18,7 @@ class RoomInformation {
 
     hideCorrectAnswer: CreateQuizDto["hideCorrectAnswer"];
 
-    questions: Array<any>
+    questions: CreateQuizDto['questions'];
 
 }
 
@@ -26,7 +26,7 @@ export class QuizzAnswerDto {
     
     
     @Prop({required: true})
-    userAnswer: (string | number | number[])[]
+    userAnswers: (number[] | string | number)[]
 
     @Prop({required: true})
     roomInformation: RoomInformation
