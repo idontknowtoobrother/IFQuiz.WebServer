@@ -14,27 +14,33 @@ export class CheckQuizzService {
     ){}
 
     async checkQuizz(userId: string, quizzAnswer: QuizzAnswerDto): Promise<ScoreDto> {
-        const { userAnswer, roomInformation } = quizzAnswer
+        const { userAnswers, roomInformation } = quizzAnswer
+        let saveUserAnswer = userAnswers
         const { questions } = roomInformation
         let score = 0
         for(let i = 0; i < questions.length; i++){
             const question = questions[i]
             
             if (question.type == 'single-choice'){
-                if(question.answer.correctAnswer === userAnswer[i]){
+                if(question.answer.correctAnswer === userAnswers[i]){
                     score += question.points
                 }
                 continue;
             }
 
             if(question.type == 'multiple-choice'){
-                let scorediff = question.answer.correctAnswer.length
-                for(let j = 0; j < question.answer.correctAnswer.length; j++){
-                    if(question.answer.correctAnswer.includes(userAnswer[i][j])){
-                        scorediff -= 1
+                let currAns = userAnswers[i] as []
+                let userCorrectLength = 0
+                for(const correctAns of question.answer.correctAnswer) {
+                    for(let indexCurrAns = 0; indexCurrAns < currAns.length; indexCurrAns++){
+                        if(correctAns === currAns[indexCurrAns]){
+                            userCorrectLength++
+                            currAns.splice(indexCurrAns, 1)
+                            break;
+                        }
                     }
-                }
-                if(scorediff <= 0){
+                } 
+                if(userCorrectLength == question.answer.correctAnswer.length){
                     score += question.points
                 }
                 continue;
@@ -44,7 +50,7 @@ export class CheckQuizzService {
                 for(const correctAnswer of question.answer.correctAnswer){
                     if (correctAnswer.type == 'is-exactly'){
                         const correctAnswerString = correctAnswer.matchString.join(' ')
-                        if(userAnswer[i] == correctAnswerString){
+                        if(userAnswers[i] == correctAnswerString){
                             score += question.points
                             break;
                         }
@@ -52,7 +58,7 @@ export class CheckQuizzService {
                     }
 
                     if(correctAnswer.type == 'contains'){
-                        if(correctAnswer.matchString.includes(userAnswer[i])){
+                        if(correctAnswer.matchString.includes(userAnswers[i])){
                             score += question.points
                             break;
                         }
@@ -64,15 +70,13 @@ export class CheckQuizzService {
            
         }
 
-
         const checkedQuizz = {
-            quiz: quizzAnswer,
+            quiz: quizzAnswer.roomInformation,
+            userAnswers: saveUserAnswer,
             score: score
         }
         const data = Object.assign(checkedQuizz, {user: userId})
-    
         const reponse = await this.checkQuizzModel.create(data)
-
         return reponse
     }
 
