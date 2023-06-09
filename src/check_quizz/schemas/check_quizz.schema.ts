@@ -9,8 +9,9 @@ export class CheckQuizz {
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: User
-
-    userAnswers: QuizzAnswerDto["userAnswers"]
+    
+    @Prop({ required: true})
+    userAnswers: (number[] | string | number)[]
     
     @Prop({ required: true})
     quiz: Quizzes
