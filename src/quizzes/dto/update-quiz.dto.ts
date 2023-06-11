@@ -20,6 +20,10 @@ export class UpdateQuizDto {
     @IsEmpty({ message: "Can't pass user id."}) // Author
     readonly user: User
 
+    @IsOptional()
+    @IsBoolean()
+    readonly hideCorrectAnswer: boolean
+
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 
