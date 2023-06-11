@@ -23,11 +23,6 @@ export class QuestionDto {
     @Prop({required: true})
     @IsNumber()
     @IsNotEmpty()
-    readonly timer : number
-
-    @Prop({required: true})
-    @IsNumber()
-    @IsNotEmpty()
     readonly points : number
 
     @Prop({required: true})
@@ -37,7 +32,6 @@ export class QuestionDto {
     @Prop({required: true})
     @IsNotEmpty()
     readonly answer : Answers
-    
 
     @Prop({required: true})
     readonly type : string

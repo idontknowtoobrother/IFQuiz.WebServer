@@ -23,11 +23,6 @@ export class CreateQuizDto {
     @IsEmpty({ message: "Can't pass user id."}) // Author
     readonly user: User
 
-    @IsOptional()
-    @IsBoolean()
-    @Prop({default: false})
-    readonly hideCorrectAnswer: boolean
-
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 

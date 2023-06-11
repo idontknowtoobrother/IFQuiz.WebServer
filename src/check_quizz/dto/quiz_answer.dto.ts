@@ -16,8 +16,6 @@ class RoomInformation {
 
     user: CreateQuizDto["user"];
 
-    hideCorrectAnswer: CreateQuizDto["hideCorrectAnswer"];
-
     questions: CreateQuizDto['questions'];
 
 }
