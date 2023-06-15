@@ -6,6 +6,7 @@ import { Quizzes } from './schemas/quizzes.schema';
 import { Query } from 'express-serve-static-core'
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { User } from '../auth/schemas/user.schema';
+import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 
 @Injectable()
 export class QuizzesService {
@@ -21,8 +22,13 @@ export class QuizzesService {
             name: {
                 $regex: query.name,
                 $options: 'i'
-            }
-        } : {}
+            },
+            deployed: true
+        } : query.owned ? {
+            user: query.owned
+        } : {
+            deployed: true
+        }
 
         const quizzes = await this.quizzesModel.find({ ...keyword }).populate('user', 'fullname')
         return quizzes
@@ -43,9 +49,12 @@ export class QuizzesService {
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
         const data = Object.assign(newQuiz, {user: user._id})
-        
-        const quiz = await this.quizzesModel.create(data)
 
+        do {
+            data.codeJoin = generateQuizCode(6);
+        } while (await this.quizzesModel.findOne({code: data.codeJoin}));
+
+        const quiz = await this.quizzesModel.create(data)
         await quiz.populate('user', 'fullname')
         return quiz
     }
