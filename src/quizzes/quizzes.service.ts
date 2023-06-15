@@ -43,7 +43,6 @@ export class QuizzesService {
             }
         }
 
-
         return quizzes
     }
 
@@ -56,7 +55,7 @@ export class QuizzesService {
         if(!quiz){
             throw new NotFoundException('Quiz not found!')
         }
-        if(!quiz.deployed === false){ 
+        if(!quiz.deployed){ 
             throw new NotFoundException('This quiz is not open for test right now.')
         }
 
