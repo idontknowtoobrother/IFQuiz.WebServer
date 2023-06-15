@@ -27,4 +27,10 @@ export class UpdateQuizDto {
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 
+    @IsOptional()
+    readonly codeJoin: string
+
+    @IsOptional()
+    readonly deployed: boolean
+
 }

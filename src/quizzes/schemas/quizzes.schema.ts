@@ -35,7 +35,11 @@ export class Quizzes {
     @Prop({required: true})
     questions: QuestionDto[]
 
+    @Prop({required: true, unique: true})
+    codeJoin: string
 
+    @Prop({default: false})
+    deployed: boolean
 }
 
 export const QuizzesSchema = SchemaFactory.createForClass(Quizzes)

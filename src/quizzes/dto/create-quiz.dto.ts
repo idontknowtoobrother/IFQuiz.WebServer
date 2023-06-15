@@ -31,4 +31,10 @@ export class CreateQuizDto {
     @IsNotEmpty()
     readonly questions: QuestionDto[] = [];
 
+    @IsOptional()
+    readonly codeJoin: string
+
+    @IsOptional()
+    readonly deployed: boolean
+
 }
