@@ -26,23 +26,40 @@ export class QuizzesService {
             deployed: true
         } : query.owned ? {
             user: query.owned
+        } :  query.codeJoin ? {
+            codeJoin: query.codeJoin
         } : {
             deployed: true
         }
 
         const quizzes = await this.quizzesModel.find({ ...keyword }).populate('user', 'fullname')
+        
+        // get quiz by code
+        if(query.codeJoin){
+            if(!quizzes[0]) {
+                throw new NotFoundException('Quiz not found!')
+            }else if(quizzes[0]?.deployed === false){
+                throw new NotFoundException('This quiz is not open for test right now.')
+            }
+        }
+
+
         return quizzes
     }
 
     // get one quiz ( By Id )
     async get(id: string) : Promise<Quizzes> {
-        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
+        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Quiz not found!')
 
         const quiz = await this.quizzesModel.findById(id).populate('user', 'fullname')
 
         if(!quiz){
             throw new NotFoundException('Quiz not found!')
         }
+        if(!quiz.deployed === false){ 
+            throw new NotFoundException('This quiz is not open for test right now.')
+        }
+
         return quiz
     }
 
