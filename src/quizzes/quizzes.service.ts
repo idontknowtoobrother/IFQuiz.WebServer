@@ -49,10 +49,9 @@ export class QuizzesService {
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
         const data = Object.assign(newQuiz, {user: user._id})
-
         do {
             data.codeJoin = generateQuizCode(6);
-        } while (await this.quizzesModel.findOne({code: data.codeJoin}));
+        } while (await this.quizzesModel.findOne({codeJoin: data.codeJoin}));
 
         const quiz = await this.quizzesModel.create(data)
         await quiz.populate('user', 'fullname')
