@@ -12,7 +12,6 @@ class RoomInformation {
 
     description: CreateQuizDto["description"];
 
-    category: CreateQuizDto["category"];
 
     user: CreateQuizDto["user"];
 
