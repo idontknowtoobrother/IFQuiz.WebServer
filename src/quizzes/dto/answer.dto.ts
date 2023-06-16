@@ -33,6 +33,11 @@ export class SingleAnswer extends Answers {
 
     @Prop({required: true})
     readonly type : AnswerTypes.SINGLE_CHOICE
+
+    @Prop({required: true})
+    @IsNotEmpty()
+    @IsArray()
+    readonly selectAnswers: Answer[]
     
     @Prop({required: true})
     @IsNumber()
@@ -44,6 +49,11 @@ export class MultipleAnswer extends Answers {
 
     @Prop({required: true})
     readonly type : AnswerTypes.MULTIPLE_CHOICE
+    
+    @Prop({required: true})
+    @IsNotEmpty()
+    @IsArray()
+    readonly selectAnswers: Answer[]
 
     @Prop({required: true})
     @IsArray()
