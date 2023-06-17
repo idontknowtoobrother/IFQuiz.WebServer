@@ -16,7 +16,7 @@ export class QuizzesService {
     ){}
 
     // get all quizzes
-    async getAll(query: Query) : Promise<Quizzes[]>{
+    async getAll(query: Query, userId: string) : Promise<Quizzes[]>{
         
         const keyword = query.name ? {
             name: {
@@ -24,12 +24,17 @@ export class QuizzesService {
                 $options: 'i'
             },
             deployed: true
-        } : query.owned ? {
-            user: query.owned
         } :  query.codeJoin ? {
             codeJoin: query.codeJoin
         } : {
             deployed: true
+        }
+
+        if(query.owned){
+            const quizzes = await this.quizzesModel.find({ 
+                user: userId,
+            }).populate('user', 'fullname')
+            return quizzes
         }
 
         const quizzes = await this.quizzesModel.find({ ...keyword }).populate('user', 'fullname')
@@ -74,7 +79,6 @@ export class QuizzesService {
 
         const quiz = await this.quizzesModel.create(data)
         await quiz.populate('user', 'fullname')
-        console.log(quiz)
         return quiz
     }
 

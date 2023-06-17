@@ -13,11 +13,14 @@ export class QuizzesController {
     constructor(private quizzesService: QuizzesService){}
 
     @Get() // get all quizzes
+    @UseGuards(AuthGuard())
     async getQuizzes(
         @Query()
-        query : ExpressQuery
+        query : ExpressQuery,
+        @Req()
+        req
     ): Promise<Quizzes[]> {
-        return this.quizzesService.getAll(query)
+        return this.quizzesService.getAll(query, req.user._id)
     }
 
     @Get(':id') // get quiz by id
