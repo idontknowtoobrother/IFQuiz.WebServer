@@ -36,6 +36,9 @@ export class QuizzesController {
         @Req()
         req
     ): Promise<Quizzes> {
+        if(createQuizDto._id){
+            return this.quizzesService.updateByUser(createQuizDto._id, createQuizDto, req.user._id)
+        }
         return this.quizzesService.create(createQuizDto, req.user)
     }
 

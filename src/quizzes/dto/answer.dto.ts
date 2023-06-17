@@ -1,74 +1,48 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 import { Prop } from "@nestjs/mongoose";
-
-export enum AnswerTypes {
-    SINGLE_CHOICE = 'single-choice',
-    MULTIPLE_CHOICE = 'multiple-choice',
-    FILL_CHOICE = 'fill-choice',
-}
 
 export enum FillTypes {
     IS_EXACTLY = 'is-exactly',
     CONTAINS = 'contains'
 }
 
-export class Answers {
-    correctAnswer: any;
-}
-
-export class Answer {
+export class SingleAnswer {
 
     @Prop({required: true})
+    @IsNotEmpty()
     @IsString()
-    @MinLength(8)
-    readonly explain : string
+    readonly explain: string
 
-    @IsOptional()
+    @Prop({required: true})
+    @IsNotEmpty()
+    @IsBoolean()
+    readonly checked: boolean
+} 
+
+export class MultipleAnswer {
+
+    @Prop({required: true})
+    @IsNotEmpty()
     @IsString()
-    readonly imageUrl : string
+    readonly explain: string
+
+    @Prop({required: true})
+    @IsNotEmpty()
+    @IsBoolean()
+    readonly checked: boolean
 
 }
 
-export class SingleAnswer extends Answers {
+export class FillAnswer {
 
     @Prop({required: true})
-    readonly type : AnswerTypes.SINGLE_CHOICE
-
-    @Prop({required: true})
-    @IsNumber()
-    readonly correctAnswer: number
-    
-}
-
-export class MultipleAnswer extends Answers {
-
-    @Prop({required: true})
-    readonly type : AnswerTypes.MULTIPLE_CHOICE
-
-    @Prop({required: true})
-    @IsArray()
-    readonly correctAnswers: number[]
-
-}
-
-export class Fill {
-    
-    @Prop({required: true})
+    @IsNotEmpty()
+    @IsString()
     readonly type: FillTypes
 
     @Prop({required: true})
     @IsNotEmpty()
-    readonly matchString: string[]
-
-}
-
-export class FillAnswer extends Answers {
-
-    @Prop({required: true})
-    readonly type : AnswerTypes.FILL_CHOICE
-
-    @Prop({required: true})
-    @IsArray()
-    readonly correctAnswers: Fill[]
+    @IsString()
+    readonly matchString: string
     
 }

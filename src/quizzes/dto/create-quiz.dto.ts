@@ -1,9 +1,12 @@
 import { Prop } from "@nestjs/mongoose";
-import { IsBoolean, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 import { User } from "../../auth/schemas/user.schema";
 import { QuestionDto } from "./question.dto";
-
+import {Duration } from './duration.dto'
 export class CreateQuizDto {
+
+    @IsOptional()
+    readonly _id: string
 
     @IsNotEmpty()
     @MinLength(3)
@@ -15,8 +18,15 @@ export class CreateQuizDto {
     @IsString()
     readonly description : string
 
-    @IsEmpty({ message: "Can't pass user id."}) // Author
-    readonly user: User
+    @IsString()
+    @IsOptional()
+    readonly imageUrl: string
+
+    @IsNumber()
+    readonly points: number
+
+    @IsNotEmpty({ message: "Duration can't be empty."})
+    readonly duration: Duration
 
     @IsOptional()
     @IsBoolean()
@@ -31,5 +41,8 @@ export class CreateQuizDto {
 
     @IsOptional()
     readonly deployed: boolean
+
+    @IsEmpty({ message: "Can't pass user id."}) // Author
+    readonly user: User
 
 }

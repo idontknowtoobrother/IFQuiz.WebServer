@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 import { User } from "../../auth/schemas/user.schema";
 import { QuestionDto } from "../dto/question.dto";
+import { Duration } from "../dto/duration.dto";
 
 @Schema({ timestamps: true })
 export class Quizzes {
@@ -12,6 +13,14 @@ export class Quizzes {
     @Prop({ required: true})
     description : string
 
+    @Prop({ default: ''})
+    imageUrl: string
+
+    @Prop({ required: true})
+    points: number
+
+    @Prop({required: true})
+    duration: Duration
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     user: User

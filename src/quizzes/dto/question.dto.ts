@@ -1,7 +1,12 @@
 import { Prop } from "@nestjs/mongoose";
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MinLength } from "class-validator";
-import { Answers } from "./answer.dto";
+import { SingleAnswer, MultipleAnswer, FillAnswer } from "./answer.dto";
 
+export enum AnswerTypes {
+    SINGLE_CHOICE = 'single-choice',
+    MULTIPLE_CHOICE = 'multiple-choice',
+    FILL_CHOICE = 'fill-choice',
+}
 
 export class Explanation {
 
@@ -31,8 +36,8 @@ export class QuestionDto {
 
     @Prop({required: true})
     @IsNotEmpty()
-    readonly answer : Answers
+    readonly answer : ( SingleAnswer[] | MultipleAnswer[] | FillAnswer[])[]
 
     @Prop({required: true})
-    readonly type : string
+    readonly type : AnswerTypes
 }

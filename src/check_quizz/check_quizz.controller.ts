@@ -9,15 +9,15 @@ import { ScoreDto } from './dto/score.dto';
 export class CheckQuizzController {
     constructor(private checkQuizzService: CheckQuizzService){}
 
-    @Post()
-    @UseGuards(AuthGuard())
-    async checkQuizz(
-        @Body()
-        quizzAnswer : QuizzAnswerDto,
-        @Req()
-        req
-    ): Promise<ScoreDto>{
-        return this.checkQuizzService.checkQuizz(req.user._id, quizzAnswer)
-    }
+    // @Post()
+    // @UseGuards(AuthGuard())
+    // async checkQuizz(
+    //     @Body()
+    //     quizzAnswer : QuizzAnswerDto,
+    //     @Req()
+    //     req
+    // ): Promise<ScoreDto>{
+    //     return this.checkQuizzService.checkQuizz(req.user._id, quizzAnswer)
+    // }
 
 }

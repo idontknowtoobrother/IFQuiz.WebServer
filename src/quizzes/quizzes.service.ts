@@ -64,15 +64,20 @@ export class QuizzesService {
 
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {
+
+
         const data = Object.assign(newQuiz, {user: user._id})
+
         do {
             data.codeJoin = generateQuizCode(6);
         } while (await this.quizzesModel.findOne({codeJoin: data.codeJoin}));
 
         const quiz = await this.quizzesModel.create(data)
         await quiz.populate('user', 'fullname')
+        console.log(quiz)
         return quiz
     }
+
 
     // delete quiz ( By Id )
     async deleteByUser(id: string, userId: string) : Promise<string> {
@@ -96,10 +101,12 @@ export class QuizzesService {
     async updateByUser(id: string, updateQuiz: Quizzes, userId: string) : Promise<Quizzes> {
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
+        const updateQuizFinal = {...updateQuiz, codeJoin: undefined}
+
         return await this.quizzesModel.findOneAndUpdate({
             _id: id,
             user: userId
-        }, updateQuiz, {
+        }, updateQuizFinal, {
             new: true,
             runValidators: true
         })

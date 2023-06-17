@@ -1,13 +1,13 @@
-import { Controller, Get,Header,Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get,Header,Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
 import * as path from 'path';
 import { FileService } from './file.service';
 import { v4 as uuidv4 } from 'uuid';
-import { Observable } from 'rxjs';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import { UploadQuizCoverImageDto } from './dto/quiz-image.dto';
 
 
 
@@ -63,6 +63,38 @@ export class FileController {
         return new StreamableFile(file);
         // return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
         // return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
+    }
+    
+
+    @Post('/upload/quiz-cover-image')
+    @UseGuards(AuthGuard())
+    @UseInterceptors(FileInterceptor('quiz-cover-image', {
+        storage: diskStorage({
+            destination: 'resources/quiz-cover-image',
+            filename: (req, file, cb) => {
+                const filename = uuidv4()
+                const ext = path.parse(file.originalname).ext
+                cb(null, `${filename}${ext}`)
+            },
+        }), 
+        fileFilter: (req, file, cb) => {
+            if (file.originalname.match(/^.*\.(jpg|png|jpeg|gif)$/))
+                cb(null, true);
+            else cb(new MulterError('LIMIT_UNEXPECTED_FILE', 'image'), false);
+        },
+        limits: {fileSize: 4e+6},
+    }))
+    async uploadQuizCoverImage(
+        @Req()
+        req,
+        @UploadedFile()
+        file: Express.Multer.File,
+        @Body()
+        body: UploadQuizCoverImageDto
+    ) {
+        return {
+            imageUrl: await this.fileService.uploadQuizCoverImage(req.user._id, body.quizId, file.filename)
+        }
     }
 
 }
