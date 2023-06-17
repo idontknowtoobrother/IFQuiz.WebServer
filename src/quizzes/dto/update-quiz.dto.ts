@@ -37,8 +37,6 @@ export class UpdateQuizDto {
     @IsOptional()
     readonly codeJoin: string
 
-    @IsOptional()
-    readonly deployed: boolean
 
     @IsEmpty({ message: "Can't pass user id."}) // Author
     readonly user: User

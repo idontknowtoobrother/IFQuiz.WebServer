@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Quizzes } from './schemas/quizzes.schema';
+import { DeployedQuizzes} from './schemas/deployed-quizzes.schema';
 
 import { Query } from 'express-serve-static-core'
 import { BadRequestException } from '@nestjs/common/exceptions';
@@ -12,7 +13,9 @@ import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 export class QuizzesService {
     constructor(
         @InjectModel(Quizzes.name)
-        private quizzesModel: Model<Quizzes>
+        private quizzesModel: Model<Quizzes>,
+        @InjectModel(DeployedQuizzes.name)
+        private deployedQuizzesModel: Model<DeployedQuizzes>
     ){}
 
     // get all quizzes
@@ -22,12 +25,11 @@ export class QuizzesService {
             name: {
                 $regex: query.name,
                 $options: 'i'
-            },
-            deployed: true
+            }
         } :  query.codeJoin ? {
             codeJoin: query.codeJoin
         } : {
-            deployed: true
+            
         }
 
         if(query.owned){
@@ -43,8 +45,6 @@ export class QuizzesService {
         if(query.codeJoin){
             if(!quizzes[0]) {
                 throw new NotFoundException('Quiz not found!')
-            }else if(quizzes[0]?.deployed === false){
-                throw new NotFoundException('This quiz is not open for test right now.')
             }
         }
 
@@ -52,20 +52,67 @@ export class QuizzesService {
     }
 
     // get one quiz ( By Id )
-    async get(id: string) : Promise<Quizzes> {
+    async get(id: string, userId: string) : Promise<Quizzes> {
         if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Quiz not found!')
+
+        // get quiz for edit
+        if(userId){
+            const quiz = await this.quizzesModel.findOne({ 
+                _id: id,
+                user: userId
+            }).populate('user', 'fullname')
+            if(!quiz){
+                throw new NotFoundException('Quiz not found or not owned.')
+            }
+            return quiz
+        }
 
         const quiz = await this.quizzesModel.findById(id).populate('user', 'fullname')
 
         if(!quiz){
             throw new NotFoundException('Quiz not found!')
         }
-        if(!quiz.deployed){ 
-            throw new NotFoundException('This quiz is not open for test right now.')
-        }
 
         return quiz
     }
+
+
+    // deploy quiz ( By Id )
+    async deploy(id: string, userId: string) : Promise<DeployedQuizzes> {
+        if(!mongoose.isValidObjectId(id)) throw new BadRequestException('Quiz not found!')
+        
+        const quiz = await this.quizzesModel.findOne({
+            _id: id,
+            user: userId
+        })
+        if(!quiz){
+            throw new NotFoundException('Quiz not found or not owned.')
+        }
+
+        const durationMilliseconds = ((quiz.duration.hours * 60 * 60 * 1000) + (quiz.duration.minutes * 60 * 1000)) + 180000;
+
+        const deployedQuiz = {
+            name: quiz.name,
+            description: quiz.description,
+            imageUrl: quiz.imageUrl,
+            points: quiz.points,
+            duration: quiz.duration,
+            user: quiz.user,
+            hideCorrectAnswer: quiz.hideCorrectAnswer,
+            questions: quiz.questions,
+            codeJoin: null,
+            expiredAt: new Date(Date.now() + durationMilliseconds)
+        }
+
+        do {
+            deployedQuiz.codeJoin = generateQuizCode(6);
+        }while(await this.deployedQuizzesModel.findOne({codeJoin: deployedQuiz.codeJoin}))
+        
+        const newDeployedQuiz = await this.deployedQuizzesModel.create(deployedQuiz)
+
+        return newDeployedQuiz
+    }
+
 
     // create quiz
     async create(newQuiz: Quizzes, user: User) : Promise<Quizzes> {

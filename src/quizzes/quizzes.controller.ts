@@ -7,6 +7,7 @@ import { Quizzes } from './schemas/quizzes.schema';
 
 import { Query as ExpressQuery } from 'express-serve-static-core'
 import { AuthGuard } from '@nestjs/passport';
+import { DeployedQuizzes } from './schemas/deployed-quizzes.schema';
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -24,11 +25,14 @@ export class QuizzesController {
     }
 
     @Get(':id') // get quiz by id
+    @UseGuards(AuthGuard())
     async getQuiz(
+        @Req()
+        req,
         @Param('id')
         id: string
     ): Promise<Quizzes> {
-        return this.quizzesService.get(id)
+        return this.quizzesService.get(id, req.user._id)
     }
 
     @Post('/create') // create quiz
@@ -43,6 +47,18 @@ export class QuizzesController {
             return this.quizzesService.updateByUser(createQuizDto._id, createQuizDto, req.user._id)
         }
         return this.quizzesService.create(createQuizDto, req.user)
+    }
+
+    @Post('/deploy')
+    @UseGuards(AuthGuard())
+    async deployQuiz(
+        @Body()
+        body,
+        @Req()
+        req
+    ): Promise<DeployedQuizzes> {
+        const { quizId } = body
+        return this.quizzesService.deploy(quizId, req.user._id)
     }
 
     @Put(':id') // update quiz
