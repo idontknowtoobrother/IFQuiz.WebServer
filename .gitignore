@@ -46,3 +46,11 @@ yarn-error.log
 /packages/graphql
 /benchmarks/memory
 build/config\.gypi
+
+/resources/profile-image/*.png
+/resources/profile-image/*.jpg
+/resources/profile-image/*.gif
+
+/resources/quiz-cover-image/*.png
+/resources/quiz-cover-image/*.jpg
+/resources/quiz-cover-image/*.gif
