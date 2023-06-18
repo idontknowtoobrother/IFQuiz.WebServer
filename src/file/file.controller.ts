@@ -1,4 +1,4 @@
-import { Body, Controller, Get,Header,Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Query, Body, Controller, Get,Header,Post, Req, Res, StreamableFile, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
@@ -9,6 +9,7 @@ import { createReadStream } from 'fs';
 import { join } from 'path';
 import { UploadQuizCoverImageDto } from './dto/quiz-image.dto';
 
+import { Query as ExpressQuery } from 'express-serve-static-core'
 
 
 @Controller('file')
@@ -63,6 +64,38 @@ export class FileController {
         return new StreamableFile(file);
         // return res.sendFile(req.user.imageUrl, {root: './resources/profile-image'})
         // return res.sendFile(join(process.cwd(), './resources/profile-image/' + req.user.imageUrl))
+    }
+
+    @Get('/get/quiz-cover-image')
+    getQuizCoverImage(
+        @Query()
+        query: ExpressQuery,
+        @Res({ passthrough: true }) 
+        res
+    ): StreamableFile {
+        const imageUrl = query.imageUrl as string
+        if(!imageUrl){
+            res.status(200)
+            return 
+        }
+        try {
+            const file = createReadStream(join(process.cwd(), './resources/quiz-cover-image/' + imageUrl));
+            const fileType = imageUrl.match(/\.([^.]+)$/)[1];
+            res.set({
+                'Content-Type': `image/${fileType}`,
+                'Content-Disposition': `attachment; filename="${imageUrl}"`,
+            })
+            return new StreamableFile(file);
+
+        }catch(e) {
+            const file = createReadStream(join(process.cwd(), './resources/static-image/image.png'));
+            const fileType = imageUrl.match(/\.([^.]+)$/)[1];
+            res.set({
+                'Content-Type': `image/${fileType}`,
+                'Content-Disposition': `attachment; filename="${imageUrl}"`,
+            })
+            return new StreamableFile(file);
+        }
     }
     
 
