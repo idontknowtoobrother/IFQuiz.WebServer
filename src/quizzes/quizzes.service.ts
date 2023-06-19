@@ -82,7 +82,6 @@ export class QuizzesService {
         const { codeJoin, quizId } = query
 
         const currentTimestamp = new Date();
-
         // get by code join
         if(codeJoin){
             const deployedQuiz = await this.deployedQuizzesModel.findOne({ 

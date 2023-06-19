@@ -11,13 +11,13 @@ import { DeployedQuizzes } from './schemas/deployed-quizzes.schema';
 
 @Controller('quizzes')
 export class QuizzesController {
-    constructor(private quizzesService: QuizzesService){}
+    constructor(private quizzesService: QuizzesService) { }
 
     @Get() // get all quizzes
     @UseGuards(AuthGuard())
     async getQuizzes(
         @Query()
-        query : ExpressQuery,
+        query: ExpressQuery,
         @Req()
         req
     ): Promise<Quizzes[]> {
@@ -34,8 +34,8 @@ export class QuizzesController {
     ): Promise<DeployedQuizzes[] | DeployedQuizzes> {
         return this.quizzesService.getAllDeployed(query)
     }
-    
-   
+
+
 
     @Get(':id') // get edit quiz by id
     @UseGuards(AuthGuard())
@@ -52,12 +52,12 @@ export class QuizzesController {
     @Post('/create') // create quiz
     @UseGuards(AuthGuard())
     async createQuiz(
-        @Body() 
+        @Body()
         createQuizDto: CreateQuizDto,
         @Req()
         req
     ): Promise<Quizzes> {
-        if(createQuizDto._id){
+        if (createQuizDto._id) {
             return this.quizzesService.updateByUser(createQuizDto._id, createQuizDto, req.user._id)
         }
         return this.quizzesService.create(createQuizDto, req.user)
