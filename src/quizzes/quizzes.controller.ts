@@ -1,29 +1,44 @@
-import { Body, Controller, Param, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizzesService } from './quizzes.service';
-import { Quizzes } from './schemas/quizzes.schema';
-
+import { Quizzes } from './schemas/created.quizzes.schema';
+import { Response } from 'express';
 import { Query as ExpressQuery } from 'express-serve-static-core'
 import { AuthGuard } from '@nestjs/passport';
-import { DeployedQuizzes } from './schemas/deployed-quizzes.schema';
+import { DeployedQuizzes } from './schemas/deployed.quizzes.schema';
+import { query } from 'express';
+import { RunningQuizzes } from './schemas/running.quizzes.schema';
 
 @Controller('quizzes')
 export class QuizzesController {
-    constructor(private quizzesService: QuizzesService){}
+    constructor(private quizzesService: QuizzesService) { }
 
     @Get() // get all quizzes
     @UseGuards(AuthGuard())
     async getQuizzes(
         @Query()
-        query : ExpressQuery,
+        query: ExpressQuery,
         @Req()
         req
     ): Promise<Quizzes[]> {
         return this.quizzesService.getAll(query, req.user._id)
     }
 
+
+    @Get('/take')
+    @UseGuards(AuthGuard())
+    async takeQuiz(
+        @Query()
+        query: ExpressQuery,
+        @Req()
+        req,
+        @Res()
+        res: Response
+    ): Promise<RunningQuizzes | Response>{
+        return this.quizzesService.takeQuiz(req.user._id, res, query)
+    }
 
 
     @Get('/deployed') // get all deployed quizzes
@@ -34,8 +49,8 @@ export class QuizzesController {
     ): Promise<DeployedQuizzes[] | DeployedQuizzes> {
         return this.quizzesService.getAllDeployed(query)
     }
-    
-   
+
+
 
     @Get(':id') // get edit quiz by id
     @UseGuards(AuthGuard())
@@ -49,15 +64,28 @@ export class QuizzesController {
     }
 
 
+    @Post('/take/update-answer')
+    @UseGuards(AuthGuard())
+    async updateAnswer(
+        @Req()
+        req,
+        @Res()
+        res: Response,
+        @Body()
+        body: any
+    ): Promise<RunningQuizzes | Response>{
+        return this.quizzesService.updateAnswer(req.user._id, body, res)
+    }
+
     @Post('/create') // create quiz
     @UseGuards(AuthGuard())
     async createQuiz(
-        @Body() 
+        @Body()
         createQuizDto: CreateQuizDto,
         @Req()
         req
     ): Promise<Quizzes> {
-        if(createQuizDto._id){
+        if (createQuizDto._id) {
             return this.quizzesService.updateByUser(createQuizDto._id, createQuizDto, req.user._id)
         }
         return this.quizzesService.create(createQuizDto, req.user)
