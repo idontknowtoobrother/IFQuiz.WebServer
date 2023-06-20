@@ -4,7 +4,7 @@ import { FileController } from './file.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from "../auth/schemas/user.schema";
-import { QuizzesSchema } from '../quizzes/schemas/quizzes.schema';
+import { QuizzesSchema } from '../quizzes/schemas/created.quizzes.schema';
 
 @Module({
   imports: [
