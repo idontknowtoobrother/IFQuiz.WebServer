@@ -6,7 +6,6 @@ import { AuthModule } from './auth/auth.module';
 import { QuizzesModule } from './quizzes/quizzes.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { FileModule } from './file/file.module';
-import { CheckQuizzModule } from './check_quizz/check_quizz.module';
 
 @Module({ 
   imports: [
@@ -17,7 +16,7 @@ import { CheckQuizzModule } from './check_quizz/check_quizz.module';
     MongooseModule.forRoot(process.env.DB_URI), 
     AuthModule, 
     QuizzesModule, 
-    AccountsModule, FileModule, CheckQuizzModule
+    AccountsModule, FileModule
   ],
   controllers: [],
   providers: [],
