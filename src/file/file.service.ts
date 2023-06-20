@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
 import * as fs from 'fs';
-import { Quizzes } from 'src/quizzes/schemas/quizzes.schema';
+import { Quizzes } from 'src/quizzes/schemas/created.quizzes.schema';
 
 @Injectable()
 export class FileService {
@@ -41,9 +41,10 @@ export class FileService {
             throw new Error('You are not author of this quiz!')
         }
 
-        if(quiz.imageUrl){
-            fs.unlink(`./resources/quiz-cover-image/${quiz.imageUrl}`, (err) => {})
-        }
+        // Remove this cause when we edit new picture, old picture of deployed quiz will be deleted
+        // if(quiz.imageUrl){
+        //     fs.unlink(`./resources/quiz-cover-image/${quiz.imageUrl}`, (err) => {})
+        // }
 
         await this.quizzesModel.findOneAndUpdate({
             _id: quizId,
