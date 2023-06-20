@@ -45,8 +45,7 @@ export class AccountsController {
     ): Promise<Messages>{
         return this.userService.changePassword(changePasswordDto, req.user._id)
     }
-
-
+    
     @Delete('')
     @UseGuards(AuthGuard())
     async deleteAccount(
