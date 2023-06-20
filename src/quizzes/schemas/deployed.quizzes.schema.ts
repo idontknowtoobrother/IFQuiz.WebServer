@@ -4,8 +4,8 @@ import { User } from "../../auth/schemas/user.schema";
 import { QuestionDto } from "../dto/question.dto";
 import { Duration } from "../dto/duration.dto";
 
-@Schema({ timestamps: true })
-export class Quizzes {
+@Schema({ timestamps: true, collection: "quiz_deployed" })
+export class DeployedQuizzes {
 
     @Prop({ require: true })
     name : string
@@ -31,6 +31,12 @@ export class Quizzes {
     @Prop({required: true})
     questions: QuestionDto[]
 
+    @Prop({required: true, unique: true})
+    codeJoin: string
+
+    @Prop({required: true})
+    expiredAt: Date
+
 }
 
-export const QuizzesSchema = SchemaFactory.createForClass(Quizzes)
+export const DeployedQuizzesSchema = SchemaFactory.createForClass(DeployedQuizzes)
