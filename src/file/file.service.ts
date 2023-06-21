@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, StreamableFile, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
@@ -32,6 +32,19 @@ export class FileService {
         return newImagePath
     }
 
+
+    async uploadQuestionImage(userId: string, questionId: number, newImagePath: string, res: any) {
+        
+        const imageFileName = newImagePath;
+        
+        return res.status(HttpStatus.CREATED).json({
+            imageUrl: imageFileName,
+            questionId: questionId
+        })
+
+        // for make log
+        // or improve this in future
+    }
 
     async uploadQuizCoverImage(userId: string, quizId: string, newImagePath: string): Promise<String> {
 
