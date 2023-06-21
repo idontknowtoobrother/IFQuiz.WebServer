@@ -1,5 +1,5 @@
 import { Prop } from "@nestjs/mongoose";
-import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, MinLength, isArray } from "class-validator";
 import { SingleAnswer, MultipleAnswer, FillAnswer } from "./answer.dto";
 
 export enum AnswerTypes {
@@ -17,9 +17,8 @@ export class Explanation {
     readonly explain: string
 
     @IsOptional()
-    @IsUrl()
-    @IsString()
-    readonly imageUrl: string
+    @IsArray()
+    readonly imageUrl: string[]
 
 }
 
