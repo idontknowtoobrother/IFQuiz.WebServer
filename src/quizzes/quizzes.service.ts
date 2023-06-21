@@ -9,7 +9,7 @@ import { BadRequestException } from '@nestjs/common/exceptions';
 import { User } from '../auth/schemas/user.schema';
 import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 
-import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
+import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer, getRunningQuizzesWithOutCorrectAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { ADD_MINUTES_DIFF_DEPLOY, ADD_MINUTES_DIFF_TAKE_QUIZ } from 'src/config/constraints';
 import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
@@ -114,7 +114,7 @@ export class QuizzesService {
     }
 
     async updateAnswer(userId: string, body: any, res: Response) {
-        const { quizId, answers } = body
+        const { quizId, answers, selectedQuestionId } = body
         if (!quizId || !answers) return res.status(HttpStatus.OK).json({ message: 'bad reqeust null' })
 
         if (!mongoose.isValidObjectId(quizId)) return res.status(HttpStatus.OK).json({ message: 'bad reqeust quizId' })
@@ -123,7 +123,7 @@ export class QuizzesService {
 
         const runningQuiz = await this.runningQuizzesModel.findOneAndUpdate(
             { user: userId, copyof: quizId },
-            { answers: answers }
+            { answers: answers, selectedQuestionId: selectedQuestionId }
         ).populate('copyof', 'expiredAt');
 
         if (runningQuiz) {
@@ -133,6 +133,7 @@ export class QuizzesService {
 
             // Perform the update operation here
             runningQuiz.answers = answers; // Assuming updatedAnswers contains the updated answers
+            runningQuiz.expiredAt = runningQuiz.copyof.expiredAt; // Assuming updatedAnswers contains the updated answers
             await runningQuiz.save();
             const finalQuiz = getTakeQuizWithOutAnswer(runningQuiz)
 
@@ -181,9 +182,12 @@ export class QuizzesService {
             throw new NotFoundException('Quiz not found or expired.')
         }
 
-        currentTimestamp.setMinutes(currentTimestamp.getMinutes() + ADD_MINUTES_DIFF_TAKE_QUIZ);
+        
+        const expiredAt = getDateWithDuration(deployedQuiz.duration, ADD_MINUTES_DIFF_DEPLOY)
+
         const data = {
             questions: deployedQuiz.questions,
+            expiredAt: expiredAt,
             answers: []
         }
         const initialAnswerData = initialTakeQuizAnswer(data)
@@ -231,6 +235,26 @@ export class QuizzesService {
         const newDeployedQuiz = await this.deployedQuizzesModel.create(deployedQuiz)
 
         return newDeployedQuiz
+    }
+
+    // get running user quiz
+    async getRunningQuizzes(userId: string): Promise<RunningQuizzes[]> {
+        if(!mongoose.isValidObjectId(userId)) throw new BadRequestException('Server error can\'t find user.')
+        
+        const currentTimestamp = new Date();
+        const runningQuizzes = await this.runningQuizzesModel.find({
+            user: userId,
+            expiredAt: { $gte: currentTimestamp}
+        }).populate('copyof')
+        .populate({
+            path: 'copyof',
+            populate: {
+                path: 'user'
+            }
+        })
+
+        const finalQuizzes = getRunningQuizzesWithOutCorrectAnswer(runningQuizzes)
+        return finalQuizzes
     }
 
 

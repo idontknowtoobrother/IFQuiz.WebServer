@@ -51,6 +51,15 @@ export class QuizzesController {
         return this.quizzesService.getAllDeployed(query)
     }
 
+    @Get('/running')
+    @UseGuards(AuthGuard())
+    async getRunningQuizzes(
+        @Req()
+        req,
+    ):Promise<RunningQuizzes[]>{
+        return this.quizzesService.getRunningQuizzes(req.user._id)
+    }
+
 
 
     @Get(':id') // get edit quiz by id

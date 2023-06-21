@@ -39,8 +39,8 @@ export class RunningQuizzes {
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'DeployedQuizzes'})
     copyof: DeployedQuizzes
 
-    // @Prop({required: true})
-    // expiredAt: Date
+    @Prop({required: true})
+    expiredAt: Date
 
     @Prop({default: []})
     answers: any[]
