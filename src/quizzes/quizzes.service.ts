@@ -12,7 +12,7 @@ import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { ADD_MINUTES_DIFF_DEPLOY, ADD_MINUTES_DIFF_TAKE_QUIZ } from 'src/config/constraints';
-import { isExpired } from 'src/utils/functions/date.utils';
+import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
 import { Response } from 'express';
 
 @Injectable()
@@ -210,11 +210,7 @@ export class QuizzesService {
             throw new NotFoundException('Quiz not found or not owned.')
         }
 
-        // get duration when deploy give it more 3 minutes for diff time
-        // like Internet Down or something
-        const currentTimestamp = new Date();
-        currentTimestamp.setMinutes(currentTimestamp.getMinutes() + ADD_MINUTES_DIFF_DEPLOY);
-
+        const expiredAt = getDateWithDuration(quiz.duration, ADD_MINUTES_DIFF_DEPLOY)
         const deployedQuiz = {
             name: quiz.name,
             description: quiz.description,
@@ -225,7 +221,7 @@ export class QuizzesService {
             hideCorrectAnswer: quiz.hideCorrectAnswer,
             questions: quiz.questions,
             codeJoin: null,
-            expiredAt: currentTimestamp
+            expiredAt: expiredAt
         }
 
         do {
@@ -251,21 +247,21 @@ export class QuizzesService {
 
 
     // delete quiz ( By Id )
-    async deleteByUser(id: string, userId: string): Promise<string> {
+    async deleteByUser(id: string, userId: string, res: Response): Promise<Response> {
 
 
         if (!mongoose.isValidObjectId(id)) throw new BadRequestException('Incorrect id.')
 
-        const res = await this.quizzesModel.findOneAndDelete({
+        const deleted = await this.quizzesModel.findOneAndDelete({
             _id: id,
             user: userId
         })
 
-        if (!res) {
+        if (!deleted) {
             throw new NotFoundException('Quiz not found or not owned.')
         }
 
-        return 'Quiz deleted.'
+        return res.status(HttpStatus.OK).json({ message: 'Quiz deleted.'})
     }
 
     // update quiz ( By Id )
