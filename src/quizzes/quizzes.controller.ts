@@ -4,12 +4,13 @@ import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizzesService } from './quizzes.service';
 import { Quizzes } from './schemas/created.quizzes.schema';
-import { Response } from 'express';
 import { Query as ExpressQuery } from 'express-serve-static-core'
 import { AuthGuard } from '@nestjs/passport';
 import { DeployedQuizzes } from './schemas/deployed.quizzes.schema';
 import { query } from 'express';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
+import { Response } from 'express';
+
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -122,9 +123,11 @@ export class QuizzesController {
         @Param('id')
         id: string,
         @Req()
-        req
-    ): Promise<string> {
-        return this.quizzesService.deleteByUser(id, req.user._id)
+        req,
+        @Res()
+        res: Response
+    ): Promise<Response> {
+        return this.quizzesService.deleteByUser(id, req.user._id, res)
     }
 
 }
