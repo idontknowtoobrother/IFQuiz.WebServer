@@ -54,3 +54,7 @@ build/config\.gypi
 /resources/quiz-cover-image/*.png
 /resources/quiz-cover-image/*.jpg
 /resources/quiz-cover-image/*.gif
+
+/resources/question-image/*.gif
+/resources/question-image/*.gif
+/resources/question-image/*.gif
