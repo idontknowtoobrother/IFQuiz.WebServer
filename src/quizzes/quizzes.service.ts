@@ -11,7 +11,6 @@ import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 
 import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer, getRunningQuizzesWithOutCorrectAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
-import { ADD_MINUTES_DIFF_DEPLOY, ADD_MINUTES_DIFF_TAKE_QUIZ } from 'src/config/constraints';
 import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
 import { Response } from 'express';
 
@@ -127,7 +126,7 @@ export class QuizzesService {
         ).populate('copyof', 'expiredAt');
 
         if (runningQuiz) {
-            if (isExpired(runningQuiz.copyof.expiredAt)) {
+            if (isExpired(runningQuiz.copyof.expiredAt, true)) {
                 return res.status(HttpStatus.OK).json({ message: 'Time\'s up!, we going to redirect you to the result page.' })
             }
 
@@ -158,7 +157,7 @@ export class QuizzesService {
         }).populate('copyof', 'name expiredAt')
 
         if (runninQuiz) {
-            if (isExpired(runninQuiz.copyof.expiredAt)) {
+            if (isExpired(runninQuiz.copyof.expiredAt, false)) {
                 throw new BadRequestException('Time\'s up!, we going to redirect you to the result page.')
             }
 
@@ -183,7 +182,7 @@ export class QuizzesService {
         }
 
         
-        const expiredAt = getDateWithDuration(deployedQuiz.duration, ADD_MINUTES_DIFF_DEPLOY)
+        const expiredAt = getDateWithDuration(deployedQuiz.duration, 0)
 
         const data = {
             questions: deployedQuiz.questions,
@@ -214,7 +213,7 @@ export class QuizzesService {
             throw new NotFoundException('Quiz not found or not owned.')
         }
 
-        const expiredAt = getDateWithDuration(quiz.duration, ADD_MINUTES_DIFF_DEPLOY)
+        const expiredAt = getDateWithDuration(quiz.duration, 0)
         const deployedQuiz = {
             name: quiz.name,
             description: quiz.description,
