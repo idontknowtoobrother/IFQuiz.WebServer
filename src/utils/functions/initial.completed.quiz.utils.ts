@@ -16,9 +16,11 @@ function isAnswerCorrect(correctAnswer: any, answer: string): boolean {
             }
         }
         if (answerData.type === 'contains') {
-            const words = answer.split(' ');
-            if (words.includes(answerData.matchString)) {
-                return true;
+            if(answer!== null && answer !== undefined){
+                const words = answer.split(' ');
+                if (words.includes(answerData.matchString)) {
+                    return true;
+                }
             }
         }
     }
