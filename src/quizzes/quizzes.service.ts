@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Quizzes } from './schemas/created.quizzes.schema';
@@ -13,6 +13,8 @@ import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTak
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
 import { Response } from 'express';
+import { checkQuizCompleted } from 'src/utils/functions/initial.completed.quiz.utils';
+import { CompletedQuizzes } from './schemas/completed.quizzes.schema';
 
 @Injectable()
 export class QuizzesService {
@@ -22,9 +24,14 @@ export class QuizzesService {
         @InjectModel(DeployedQuizzes.name)
         private deployedQuizzesModel: Model<DeployedQuizzes>,
         @InjectModel(RunningQuizzes.name)
-        private runningQuizzesModel: Model<RunningQuizzes>
+        private runningQuizzesModel: Model<RunningQuizzes>,
+        @InjectModel(CompletedQuizzes.name)
+        private completedQuizzesModel: Model<CompletedQuizzes>
     ) { }
 
+    private readonly logger = new Logger(QuizzesService.name) // logger
+
+    
     // get all quizzes
     async getAll(query: Query, userId: string): Promise<Quizzes[]> {
         const keyword = query.name ? {
@@ -79,6 +86,46 @@ export class QuizzesService {
         const finalQuizzes = getQuizzesWithOutCorrectAnswer(quizzes)
 
         return finalQuizzes
+    }
+
+    async getCompletedQuiz(userId:string, quizId: string){
+        return await this.completedQuizzesModel.find({ user: userId, _id: quizId }).populate('copyof').populate({
+            path: 'copyof',
+            populate: {
+                path: 'user'
+            }
+        })
+    }
+
+    async getCompletedQuizzes(userId: string, query: Query){
+        if (!mongoose.isValidObjectId(userId)) throw new BadRequestException('Server can\'t get userId')
+        const { quizId } = query
+
+        if(quizId)return this.getCompletedQuiz(userId, quizId as string)
+
+        const currentTimestamp = new Date();
+        const runningQuizzes = await this.runningQuizzesModel.find({
+            user: userId,
+            expiredAt: { $lt: currentTimestamp }
+        }).populate('copyof').populate('user')
+
+        if (runningQuizzes.length > 0) {
+            const checkedRunningQuizzes = checkQuizCompleted(runningQuizzes);
+            await this.completedQuizzesModel.insertMany(checkedRunningQuizzes);
+        
+            // Extract the IDs of the runningQuizzes to be deleted
+            const runningQuizIds = runningQuizzes.map((quiz) => quiz._id);
+            // Delete the runningQuizzes documents
+            await this.runningQuizzesModel.deleteMany({ _id: { $in: runningQuizIds } });
+        }
+
+        const completedQuizzes = await this.completedQuizzesModel.find({ user: userId }).populate('copyof').populate({
+            path: 'copyof',
+            populate: {
+                path: 'user'
+            }
+        })
+        return completedQuizzes
     }
 
     // get deployed quiz ( By Code Join or Id )

@@ -10,6 +10,7 @@ import { DeployedQuizzes } from './schemas/deployed.quizzes.schema';
 import { query } from 'express';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { Response } from 'express';
+import { CompletedQuizzes } from './schemas/completed.quizzes.schema';
 
 
 @Controller('quizzes')
@@ -42,6 +43,18 @@ export class QuizzesController {
     }
 
 
+    @Get('/completed')
+    @UseGuards(AuthGuard())
+    async getCompletedQuizzes(
+        @Query()
+        query: ExpressQuery,
+        @Req()
+        req,
+    ): Promise<CompletedQuizzes[]>{
+        return this.quizzesService.getCompletedQuizzes(req.user._id, query)
+    }
+
+
     @Get('/deployed') // get all deployed quizzes
     @UseGuards(AuthGuard())
     async getDeployedQuizzes(
@@ -59,7 +72,6 @@ export class QuizzesController {
     ):Promise<RunningQuizzes[]>{
         return this.quizzesService.getRunningQuizzes(req.user._id)
     }
-
 
 
     @Get(':id') // get edit quiz by id

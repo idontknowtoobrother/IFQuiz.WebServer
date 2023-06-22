@@ -5,14 +5,15 @@ import { User } from "src/auth/schemas/user.schema";
 import { QuestionDto } from "../dto/question.dto";
 import { DeployedQuizzes } from "./deployed.quizzes.schema";
 
-@Schema({timestamps: true, collection: 'quiz_running'})
-export class RunningQuizzes {
+@Schema({timestamps: true, collection: 'quiz_completed', versionKey: false})
+export class CompletedQuizzes {
 
 
     // @Prop({ require: true })
     // name : string
 
-    // @Prop({ required: true})
+    // @Prop({ required: true})3
+    
     // description : string
 
     // @Prop({ default: ''})
@@ -42,12 +43,15 @@ export class RunningQuizzes {
     @Prop({required: true})
     expiredAt: Date
 
-    @Prop({default: []})
+    @Prop({required: true, default: []})
     answers: any[]
 
-    @Prop({default:0})
+    @Prop({required:true, default:0})
     selectedQuestionId: number
+
+    @Prop({required:true, default:0})
+    score: number
 
 }
 
-export const RunningQuizzesSchema = SchemaFactory.createForClass(RunningQuizzes)
+export const CompletedQuizzesSchema = SchemaFactory.createForClass(CompletedQuizzes)
