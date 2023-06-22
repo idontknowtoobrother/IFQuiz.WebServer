@@ -13,7 +13,7 @@ import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTak
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
 import { Response } from 'express';
-import { checkQuizCompleted } from 'src/utils/functions/initial.completed.quiz.utils';
+import { checkQuizCompleted, checkQuizzesCompleted } from 'src/utils/functions/initial.completed.quiz.utils';
 import { CompletedQuizzes } from './schemas/completed.quizzes.schema';
 
 @Injectable()
@@ -88,6 +88,36 @@ export class QuizzesService {
         return finalQuizzes
     }
 
+
+    async submitQuiz(userId: string, quizId: string, res: Response): Promise<CompletedQuizzes | Response>{
+        if (!mongoose.isValidObjectId(userId)) throw new BadRequestException('Server can\'t get userId')
+        if (!mongoose.isValidObjectId(quizId)) throw new BadRequestException('Server can\'t get userId')
+
+        const currentTimestamp = new Date();
+        const runningQuiz = await this.runningQuizzesModel.findOne({
+            user: userId,
+            expiredAt: { $lte: currentTimestamp }
+        }).populate('copyof').populate('user')
+
+        if(!runningQuiz){
+            throw new NotFoundException('Quiz not found')
+        }
+        const checkedQuiz = checkQuizCompleted(runningQuiz);
+        await this.runningQuizzesModel.deleteOne({ _id: runningQuiz._id });
+
+        const completedQuiz = await this.completedQuizzesModel.create(checkedQuiz);
+
+        await completedQuiz.populate('copyof')
+        await completedQuiz.populate({
+            path: 'copyof',
+            populate: {
+                path: 'user'
+            }
+        })
+        return completedQuiz
+    }
+
+
     async getCompletedQuiz(userId:string, quizId: string){
         return await this.completedQuizzesModel.find({ user: userId, _id: quizId }).populate('copyof').populate({
             path: 'copyof',
@@ -110,15 +140,15 @@ export class QuizzesService {
         }).populate('copyof').populate('user')
 
         if (runningQuizzes.length > 0) {
-            const checkedRunningQuizzes = checkQuizCompleted(runningQuizzes);
-            if(checkedRunningQuizzes.length < 0)return []
+            const checkedRunningQuizzes = checkQuizzesCompleted(runningQuizzes);
             await this.completedQuizzesModel.insertMany(checkedRunningQuizzes);
-        
-            // Extract the IDs of the runningQuizzes to be deleted
+            
+            // // Extract the IDs of the runningQuizzes to be deleted
             const runningQuizIds = runningQuizzes.map((quiz) => quiz._id);
-            // Delete the runningQuizzes documents
+            // // Delete the runningQuizzes documents
             await this.runningQuizzesModel.deleteMany({ _id: { $in: runningQuizIds } });
         }
+
 
         const completedQuizzes = await this.completedQuizzesModel.find({ user: userId }).populate('copyof').populate({
             path: 'copyof',

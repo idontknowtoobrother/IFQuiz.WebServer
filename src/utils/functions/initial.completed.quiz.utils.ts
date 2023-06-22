@@ -16,7 +16,7 @@ function isAnswerCorrect(correctAnswer: any, answer: string): boolean {
             }
         }
         if (answerData.type === 'contains') {
-            if(answer!== null && answer !== undefined){
+            if (answer !== null && answer !== undefined) {
                 const words = answer.split(' ');
                 if (words.includes(answerData.matchString)) {
                     return true;
@@ -38,6 +38,10 @@ const checkFillChoice = (question: QuestionDto, answer: any) => {
 
 // helper function MultipleChoice (chat-gpt3)
 function checkMatchingIds(correctIds: number[], answerIds: number[]): boolean {
+    if (!correctIds || correctIds.length === 0) {
+        return true; // Return true if there are no correctIds to match
+    }
+
     if (!answerIds || answerIds.length === 0) {
         return false;
     }
@@ -45,7 +49,17 @@ function checkMatchingIds(correctIds: number[], answerIds: number[]): boolean {
     const sortedCorrectIds = correctIds.sort();
     const sortedAnswerIds = answerIds.sort();
 
-    return sortedCorrectIds.some((correctId) => sortedAnswerIds.includes(correctId));
+    let correctIndex = 0;
+    for (const answerId of sortedAnswerIds) {
+        if (answerId === sortedCorrectIds[correctIndex]) {
+            correctIndex++;
+            if (correctIndex === sortedCorrectIds.length) {
+                return true; // All correctIds found in answerIds
+            }
+        }
+    }
+
+    return false; // Not all correctIds found in answerIds
 }
 // helper function MultipleChoice (chat-gpt3)
 
@@ -73,28 +87,41 @@ const checkAnswerMaps: Object = {
 
 
 
-export function checkQuizCompleted(quizzes: RunningQuizzes[]) {
-    const completedQuizzes: CompletedQuizzes[]= [];
+
+export function checkQuizCompleted(quiz: RunningQuizzes) {
+
+    let checkedQuiz: any = {};
+
+    checkedQuiz.score = 0;
+    checkedQuiz.user = quiz.user;
+    checkedQuiz.questions = quiz.questions;
+    checkedQuiz.copyof = quiz.copyof;
+    checkedQuiz.expiredAt = new Date(quiz.expiredAt);
+    checkedQuiz.answers = quiz.answers;
+    checkedQuiz.selectedQuestionId = quiz.selectedQuestionId;
+    for (let id = 0; id < quiz.questions.length; id++) {
+        const question = quiz.questions[id];
+        const answers = quiz.answers[id];
+        checkedQuiz.score += checkAnswerMaps[question.type](question, answers);
+    }
+    return checkedQuiz;
+}
+
+
+export function checkQuizzesCompleted(quizzes: RunningQuizzes[]) {
+    let completedQuizzes: CompletedQuizzes[] = [];
 
     for (const quiz of quizzes) {
-        const checkedQuiz: any = {};
-        checkedQuiz._id = null;
+        let checkedQuiz: any = {};
         checkedQuiz.score = 0;
 
-        // Check if the required properties exist in the quiz object
-        if (quiz.user && quiz.questions && quiz.copyof && quiz.expiredAt && quiz.answers && quiz.selectedQuestionId) {
-            // Copy the properties from the original quiz to the checkedQuiz
-            checkedQuiz.user = quiz.user;
-            checkedQuiz.questions = quiz.questions;
-            checkedQuiz.copyof = quiz.copyof;
-            checkedQuiz.expiredAt = quiz.expiredAt;
-            checkedQuiz.answers = quiz.answers;
-            checkedQuiz.selectedQuestionId = quiz.selectedQuestionId;
-        } else {
-            // Handle the case when the required properties are not defined
-            logger.error('Required properties are missing in the quiz object:', quiz);
-            continue; // Skip processing this quiz and move to the next one
-        }
+        // Copy the properties from the original quiz to the checkedQuiz
+        checkedQuiz.user = quiz.user;
+        checkedQuiz.questions = quiz.questions;
+        checkedQuiz.copyof = quiz.copyof;
+        checkedQuiz.expiredAt = new Date(quiz.expiredAt);
+        checkedQuiz.answers = quiz.answers;
+        checkedQuiz.selectedQuestionId = quiz.selectedQuestionId;
 
         // Calculate the score based on the question and answers
         for (let id = 0; id < quiz.questions.length; id++) {
@@ -106,6 +133,5 @@ export function checkQuizCompleted(quizzes: RunningQuizzes[]) {
         completedQuizzes.push(checkedQuiz);
     }
 
-    console.log(completedQuizzes);
     return completedQuizzes;
 }

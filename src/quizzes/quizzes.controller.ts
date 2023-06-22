@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Delete, Get, Post, Put } from '@nestjs/common/decorators/http/request-mapping.decorator';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
@@ -85,6 +85,24 @@ export class QuizzesController {
         return this.quizzesService.getEditQuiz(id, req.user._id)
     }
 
+
+    @Post('/take/submit')
+    @UseGuards(AuthGuard())
+    async submitQuiz(
+        @Req()
+        req,
+        @Res({passthrough: true})
+        res: Response,
+        @Body()
+        body: any
+    ): Promise<CompletedQuizzes | Response>{
+        const {quizId} = body
+        if(!quizId) {
+            res.status(HttpStatus.NOT_FOUND).json({message: 'quizId is required'})
+            return
+        }
+        return this.quizzesService.submitQuiz(req.user._id, quizId, res)
+    }
 
     @Post('/take/update-answer')
     @UseGuards(AuthGuard())
