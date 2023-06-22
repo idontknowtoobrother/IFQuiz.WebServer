@@ -111,6 +111,7 @@ export class QuizzesService {
 
         if (runningQuizzes.length > 0) {
             const checkedRunningQuizzes = checkQuizCompleted(runningQuizzes);
+            if(checkedRunningQuizzes.length < 0)return []
             await this.completedQuizzesModel.insertMany(checkedRunningQuizzes);
         
             // Extract the IDs of the runningQuizzes to be deleted
