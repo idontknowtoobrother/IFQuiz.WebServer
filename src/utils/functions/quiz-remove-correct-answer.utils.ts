@@ -1,5 +1,32 @@
 import { RunningQuizzes } from "src/quizzes/schemas/running.quizzes.schema"
 
+export function getCompletedQuizzesWithOutCorrectAnswer(quizzes: any){
+    let quizzesFinal = quizzes
+
+    for(let quiz of quizzesFinal){
+        if(quiz.hideCorrectAnswer){
+            for(let question of quiz.questions){
+                for(let ans of question.answer){
+                    delete ans?.checked
+                    delete ans?.type
+                    delete ans?.matchString
+                }
+            }
+            if(quiz.copyof !== null && quiz.copyof !== undefined){
+                for(let question of quiz.copyof.questions){
+                    for(let ans of question.answer){
+                        delete ans?.checked
+                        delete ans?.type
+                        delete ans?.matchString
+                    }
+                }
+            }
+        }
+    }
+
+    return quizzesFinal
+}
+
 export function getQuizzesWithOutCorrectAnswer(quizzes: any){
     let quizzesFinal = quizzes
 
@@ -9,6 +36,15 @@ export function getQuizzesWithOutCorrectAnswer(quizzes: any){
                 delete ans?.checked
                 delete ans?.type
                 delete ans?.matchString
+            }
+        }
+        if(quiz.copyof !== null && quiz.copyof !== undefined){
+            for(let question of quiz.copyof.questions){
+                for(let ans of question.answer){
+                    delete ans?.checked
+                    delete ans?.type
+                    delete ans?.matchString
+                }
             }
         }
     }

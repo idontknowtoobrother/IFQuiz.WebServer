@@ -9,7 +9,7 @@ import { BadRequestException } from '@nestjs/common/exceptions';
 import { User } from '../auth/schemas/user.schema';
 import { generateQuizCode } from '../utils/functions/quiz-code-generator.utils'
 
-import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer, getRunningQuizzesWithOutCorrectAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
+import { getQuizzesWithOutCorrectAnswer, getQuizWithOutCorrectAnswer, initialTakeQuizAnswer, getTakeQuizWithOutAnswer, getRunningQuizzesWithOutCorrectAnswer, getCompletedQuizzesWithOutCorrectAnswer } from 'src/utils/functions/quiz-remove-correct-answer.utils';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { getDateWithDuration, isExpired } from 'src/utils/functions/date.utils';
 import { Response } from 'express';
@@ -119,12 +119,15 @@ export class QuizzesService {
 
 
     async getCompletedQuiz(userId:string, quizId: string){
-        return await this.completedQuizzesModel.find({ user: userId, _id: quizId }).populate('copyof').populate({
+        const completedQuiz = await this.completedQuizzesModel.find({ user: userId, _id: quizId }).populate('copyof').populate({
             path: 'copyof',
             populate: {
                 path: 'user'
             }
-        })
+        }) as any
+        
+        const finalQuiz = getCompletedQuizzesWithOutCorrectAnswer(completedQuiz)
+        return finalQuiz
     }
 
     async getCompletedQuizzes(userId: string, query: Query){
@@ -156,7 +159,8 @@ export class QuizzesService {
                 path: 'user'
             }
         })
-        return completedQuizzes
+        const finalQuiz = getCompletedQuizzesWithOutCorrectAnswer(completedQuizzes)
+        return finalQuiz
     }
 
     // get deployed quiz ( By Code Join or Id )
