@@ -259,9 +259,8 @@ export class QuizzesService {
             runningQuiz.answers = answers; // Assuming updatedAnswers contains the updated answers
             runningQuiz.expiredAt = runningQuiz.copyof.expiredAt; // Assuming updatedAnswers contains the updated answers
             await runningQuiz.save();
-            const finalQuiz = getTakeQuizWithOutAnswer(runningQuiz)
-            this.logger.log(`update answer: userId[${userId}] body[${JSON.stringify(body)}] response[${JSON.stringify(finalQuiz)}]`)
-            return res.status(200).json({ quiz: finalQuiz });
+            this.logger.log(`update answer: userId[${userId}] body[${JSON.stringify(body)}] response[${JSON.stringify(runningQuiz.answers)}]`)
+            return res.status(200).json({ answers: runningQuiz.answers });
         }
 
         this.logger.error(`update answer: userId[${userId}] body[${JSON.stringify(body)}] response[Not Found]`)
