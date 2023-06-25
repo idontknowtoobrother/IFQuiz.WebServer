@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
@@ -16,7 +16,12 @@ export class AuthService {
         private jwtService: JwtService
     ){}
 
+    private readonly logger = new Logger(AuthService.name)
+
     async signUp(signUpDto: SignUpDto): Promise<{ token: string}>{
+
+        this.logger.log(`signUp: ${JSON.stringify(signUpDto)}`)
+
         const { email, password, fullname, birthday } = signUpDto
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -44,21 +49,25 @@ export class AuthService {
             token: token
         }
 
+        this.logger.log(`signUp-response: ${JSON.stringify(responeUser)}`)
         return responeUser
     }
 
     async login(loginDto: LoginDto): Promise<{ token: string}> {
+        this.logger.log(`login: ${JSON.stringify(loginDto)}`)
         const { email, password } = loginDto
         
         // find a user email is valid in database ?
         const user = await this.userModel.findOne({ email })
         if(!user){
+            this.logger.error(`login: ${JSON.stringify(loginDto)}`)
             throw new UnauthorizedException("Invalid email or password")
         }
         
         // check password is valid with user found ?
         const isPasswordMatched = await bcrypt.compare(password, user.password)
         if(!isPasswordMatched) {
+            this.logger.error(`login: ${JSON.stringify(loginDto)}`)
             throw new UnauthorizedException("Invalid email or password")
         }
 
@@ -77,6 +86,8 @@ export class AuthService {
             soundEffect: user.soundEffect,
             token: token
         }
+
+        this.logger.log(`login-response: ${JSON.stringify(responeUser)}`)
 
         return responeUser
     }

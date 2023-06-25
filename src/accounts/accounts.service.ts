@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../auth/schemas/user.schema';
@@ -16,8 +16,15 @@ export class AccountsService {
         private userModel: mongoose.Model<User>
     ){}
 
+    private readonly logger = new Logger(AccountsService.name) // logger
+
+
     async updateStatus(updateStatus: UpdateStatusDto, userId: string): Promise<UpdateStatusDto> {
-        if(!mongoose.isValidObjectId(userId)) throw new BadRequestException('Incorrect id.')
+
+        if(!mongoose.isValidObjectId(userId)) {
+            this.logger.error(`updateStatus: ${JSON.stringify(updateStatus)} ${userId}`)
+            throw new BadRequestException('Incorrect id.')
+        }
 
         await this.userModel.findOneAndUpdate({
             _id: userId
@@ -26,12 +33,16 @@ export class AccountsService {
             runValidators: true
         })
 
+        this.logger.log(`updateStatus: ${JSON.stringify(updateStatus)} ${userId}`)
         return updateStatus
     }
 
 
     async updateProfile(updateProfile: UpdateProfileDto, userId: string): Promise<UpdateProfileDto> {
-        if(!mongoose.isValidObjectId(userId)) throw new BadRequestException('incorrect id.')
+        if(!mongoose.isValidObjectId(userId)){
+            this.logger.error(`updateProfile: ${JSON.stringify(updateProfile)} ${userId}`)
+            throw new BadRequestException('incorrect id.')
+        }
         
         await this.userModel.findOneAndUpdate({
             _id: userId
@@ -40,10 +51,13 @@ export class AccountsService {
             runValidators: true
         })
 
+        this.logger.log(`updateProfile: ${JSON.stringify(updateProfile)} ${userId}`)
         return updateProfile
     }
 
     async changePassword(changePasswordDto: ChangePasswordDto, userId: string): Promise<Messages>{
+        this.logger.log(`changePassword: ${JSON.stringify(changePasswordDto)} ${userId}`)
+
         const { password } = changePasswordDto;
         const hashedPassword = await bcrypt.hash(password, 10)
         await this.userModel.findOneAndUpdate({
@@ -62,7 +76,7 @@ export class AccountsService {
     }
 
     async deleteAccount(userId: string): Promise<Messages> {
-        
+        this.logger.log(`deleteAccount: ${userId}`)
         await this.userModel.findByIdAndDelete({
             _id: userId
         },{

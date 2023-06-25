@@ -1,4 +1,4 @@
-import { Injectable, StreamableFile, HttpStatus } from '@nestjs/common';
+import { Injectable, StreamableFile, HttpStatus, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
@@ -14,8 +14,11 @@ export class FileService {
         private quizzesModel: Model<Quizzes>
     ){}
 
+    private readonly logger = new Logger(FileService.name)
 
     async updateProfileImage(userId: string, newImagePath: string): Promise<String>{
+        this.logger.log(`updateProfileImage: ${userId} ${newImagePath}`)
+
         const user = await this.userModel.findById(userId, 'imageUrl')
         if(user.imageUrl){
             fs.unlink(`./resources/profile-image/${user.imageUrl}`, (err) => {})
@@ -29,14 +32,16 @@ export class FileService {
             new: true,
             runValidators: true
         })
+        this.logger.log(`updateProfileImage-response: ${userId} ${newImagePath}`)
         return newImagePath
     }
 
 
     async uploadQuestionImage(userId: string, questionId: number, newImagePath: string, res: any) {
-        
+        this.logger.log(`uploadQuestionImage: ${userId} ${questionId} ${newImagePath}`)
         const imageFileName = newImagePath;
         
+        this.logger.log(`uploadQuestionImage-response: ${userId} ${questionId} ${imageFileName}`)
         return res.status(HttpStatus.CREATED).json({
             imageUrl: imageFileName,
             questionId: questionId
@@ -47,10 +52,11 @@ export class FileService {
     }
 
     async uploadQuizCoverImage(userId: string, quizId: string, newImagePath: string): Promise<String> {
-
+        this.logger.log(`uploadQuizCoverImage: ${userId} ${quizId} ${newImagePath}`)
         const quiz = await this.quizzesModel.findById(quizId).populate('user', '_id')
 
         if(quiz.user._id.toString() !== userId.toString()){
+            this.logger.error(`uploadQuizCoverImage: ${userId} ${quizId} ${newImagePath}`)
             throw new Error('You are not author of this quiz!')
         }
 
@@ -68,6 +74,7 @@ export class FileService {
             runValidators: true
         })
 
+        this.logger.log(`uploadQuizCoverImage-response: ${userId} ${quizId} ${newImagePath}`)
         return newImagePath
     }
 

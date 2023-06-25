@@ -11,6 +11,7 @@ import {
 	UploadedFile,
 	UseGuards,
 	UseInterceptors,
+	Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -27,6 +28,7 @@ import { Query as ExpressQuery } from 'express-serve-static-core';
 @Controller('file')
 export class FileController {
 	constructor(private fileService: FileService) { }
+	private readonly logger = new Logger(FileController.name);
 
 	@Post('/upload/profile-image')
 	@UseGuards(AuthGuard())
@@ -64,6 +66,8 @@ export class FileController {
 	@Get('/get/profile-image')
 	@UseGuards(AuthGuard())
 	getProfileImage(@Req() req, @Res({ passthrough: true }) res): StreamableFile {
+		this.logger.log(`/get/profile-image: ${req.user.imageUrl}`);
+
 		if (!req.user.imageUrl) {
 			const file = createReadStream(
 				join(process.cwd(), './resources/static-image/profile-image.png'),
@@ -108,6 +112,7 @@ export class FileController {
 		res,
 	): StreamableFile {
 		const imageUrl = query.imageUrl as string;
+		this.logger.log(`/get/question-image: ${imageUrl}`);
 		if (!imageUrl) {
 			res.status(200);
 			return;
@@ -148,7 +153,8 @@ export class FileController {
 		res,
 	): StreamableFile {
 		const imageUrl = query.imageUrl as string;
-
+		this.logger.log(`/get/quiz-cover-image: ${imageUrl}`);
+		
 		if (!imageUrl) {
 			res.status(200);
 			return;

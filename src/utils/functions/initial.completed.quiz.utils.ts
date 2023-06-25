@@ -32,7 +32,7 @@ function isAnswerCorrect(correctAnswer: any, answer: string): boolean {
 const checkFillChoice = (question: QuestionDto, answer: any) => {
     const correctAnswer = question.answer
     const isCorrect = isAnswerCorrect(correctAnswer, answer.matchString)
-    logger.debug(`\nCHECK_FILL_CHOICE: correctAnswer: ${JSON.stringify(correctAnswer)} answer: ${answer.matchString} add-points: ${isCorrect ? question.points : 0}`)
+    logger.log(`fill-choice: correctAnswer: ${JSON.stringify(correctAnswer)} answer: ${answer.matchString} add-points: ${isCorrect ? question.points : 0}`)
     return isCorrect ? question.points : 0
 }
 
@@ -68,14 +68,14 @@ const checkMultipleChoice = (question: QuestionDto, answer: any) => {
         .filter((index) => index !== null);
 
     const isCorrect = checkMatchingIds(correctIds, answer.selectedIds);
-    logger.debug(`\nCHECK_MULTIPLE_CHOICE: correctIds: ${JSON.stringify(correctIds)} answerIds: ${JSON.stringify(answer.selectedIds)} add-points: ${isCorrect ? question.points : 0}`)
+    logger.log(`multiple-choice: correctIds: ${JSON.stringify(correctIds)} answerIds: ${JSON.stringify(answer.selectedIds)} add-points: ${isCorrect ? question.points : 0}`)
     return isCorrect ? question.points : 0
 }
 
 const checkSingleChoice = (question: QuestionDto, answer: any) => {
     const correctId = question.answer.findIndex((ans) => (ans as any).checked)
     const isCorrect = correctId === answer.selectedId
-    logger.debug(`\nCHECK_SINGLE_CHOICE: correctId: ${correctId} answerId: ${answer.selectedId} add-points: ${isCorrect ? question.points : 0}}`)
+    logger.log(`single-choice: correctId: ${correctId} answerId: ${answer.selectedId} add-points: ${isCorrect ? question.points : 0}}`)
     return isCorrect ? question.points : 0
 }
 
@@ -86,9 +86,8 @@ const checkAnswerMaps: Object = {
 }
 
 
-
-
 export function checkQuizCompleted(quiz: RunningQuizzes) {
+    logger.log(`checkQuizCompleted: ${JSON.stringify(quiz)}`)
 
     let checkedQuiz: any = {};
 
