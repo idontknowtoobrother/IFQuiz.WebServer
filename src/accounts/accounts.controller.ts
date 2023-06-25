@@ -11,6 +11,7 @@ import { UpdateStatusDto } from './dto/update-status.dto';
 @Controller('accounts')
 export class AccountsController {
     constructor(private userService: AccountsService){}
+    
 
     @Patch('/status') // update only status
     @UseGuards(AuthGuard())
