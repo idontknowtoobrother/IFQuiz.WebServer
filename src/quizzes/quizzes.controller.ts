@@ -11,14 +11,22 @@ import { query } from 'express';
 import { RunningQuizzes } from './schemas/running.quizzes.schema';
 import { Response } from 'express';
 import { CompletedQuizzes } from './schemas/completed.quizzes.schema';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateAnswersDto } from './dto/update.answer.dto';
 
 
+@ApiTags('Quizzes')
+@ApiBearerAuth()
 @Controller('quizzes')
 export class QuizzesController {
     constructor(private quizzesService: QuizzesService) { }
 
     @Get() // get all quizzes
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Get all quizzes',
+        type: [Quizzes]
+    })
     async getQuizzes(
         @Query()
         query: ExpressQuery,
@@ -31,6 +39,10 @@ export class QuizzesController {
 
     @Get('/take')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Take quiz',
+        type: RunningQuizzes
+    })
     async takeQuiz(
         @Query()
         query: ExpressQuery,
@@ -45,6 +57,10 @@ export class QuizzesController {
 
     @Get('/completed')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Get completed quizzes',
+        type: [CompletedQuizzes]
+    })
     async getCompletedQuizzes(
         @Query()
         query: ExpressQuery,
@@ -57,6 +73,10 @@ export class QuizzesController {
 
     @Get('/deployed') // get all deployed quizzes
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Get all deployed quizzes',
+        type: [DeployedQuizzes]
+    })
     async getDeployedQuizzes(
         @Query()
         query: ExpressQuery
@@ -66,6 +86,10 @@ export class QuizzesController {
 
     @Get('/running')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Get running quizzes',
+        type: [RunningQuizzes]
+    })
     async getRunningQuizzes(
         @Req()
         req,
@@ -76,6 +100,10 @@ export class QuizzesController {
 
     @Get(':id') // get edit quiz by id
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Get edit quiz by id',
+        type: Quizzes
+    })
     async getEditQuiz(
         @Req()
         req,
@@ -88,6 +116,22 @@ export class QuizzesController {
 
     @Post('/take/submit')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Submit quiz',
+        type: CompletedQuizzes
+    })
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                quizId: {
+                    type: 'string',
+                    description: 'Quiz id of running quiz',
+                    example: '60f0b0b0e3b3c3b3b0b3b0b3'
+                },
+            }
+        }
+    })
     async submitQuiz(
         @Req()
         req,
@@ -106,33 +150,57 @@ export class QuizzesController {
 
     @Post('/take/update-answer')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Update answer',
+        type: RunningQuizzes
+    })
     async updateAnswer(
         @Req()
         req,
         @Res()
         res: Response,
         @Body()
-        body: any
+        body: UpdateAnswersDto
     ): Promise<RunningQuizzes | Response>{
         return this.quizzesService.updateAnswer(req.user._id, body, res)
     }
 
     @Post('/create') // create quiz
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Create quiz',
+        type: Quizzes
+    })
+    @ApiBody({
+        type: CreateQuizDto
+    })
     async createQuiz(
         @Body()
         createQuizDto: CreateQuizDto,
         @Req()
         req
     ): Promise<Quizzes> {
-        if (createQuizDto._id) {
-            return this.quizzesService.updateByUser(createQuizDto._id, createQuizDto, req.user._id)
-        }
         return this.quizzesService.create(createQuizDto, req.user)
     }
 
     @Post('/deploy') // deploy quiz
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Deploy quiz',
+        type: DeployedQuizzes
+    })
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                quizId: {
+                    type: 'string',
+                    description: 'Quiz id',
+                    example: '60f0b0b0e3b3c3b3b0b3b0b3'
+                },
+            }
+        }
+    })
     async deployQuiz(
         @Body()
         body,
@@ -143,6 +211,13 @@ export class QuizzesController {
         return this.quizzesService.deploy(quizId, req.user._id)
     }
 
+    @ApiCreatedResponse({
+        description: 'Update quiz',
+        type: Quizzes
+    })
+    @ApiBody({
+        type: UpdateQuizDto
+    })
     @Put(':id') // update quiz
     @UseGuards(AuthGuard())
     async updateQuiz(
@@ -156,6 +231,14 @@ export class QuizzesController {
         return this.quizzesService.updateByUser(id, quizDto, req.user._id)
     }
 
+    @ApiCreatedResponse({
+        description: 'Delete quiz',
+        schema: {
+            example: {
+                "message": "Quiz deleted successfully"
+            }
+        }
+    })
     @Delete(':id') // delete quiz
     @UseGuards(AuthGuard())
     async deleteQuiz(
@@ -170,3 +253,5 @@ export class QuizzesController {
     }
 
 }
+
+

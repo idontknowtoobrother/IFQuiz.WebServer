@@ -1,14 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class UploadQuizCoverImageDto {
+export class TokenDto {
 
     @ApiProperty({
-        description: "quiz id",
+        description: "token of the user",
         type: String,
-        example: "60f1b0a0e1b7a81f1c1a2b1a"
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
     })
-    @IsNotEmpty()
     @IsString()
-    quizId: string
+    @IsNotEmpty()
+    readonly token: string
 }

@@ -24,7 +24,12 @@ import { join } from 'path';
 import { UploadQuizCoverImageDto } from './dto/quiz-image.dto';
 
 import { Query as ExpressQuery } from 'express-serve-static-core';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { UploadImageResponseDto, UploadQuestionImageDto, UploadQuestionImageResponseDto } from './dto/upload.dto';
+import { GetImageDto } from './dto/get.dto';
 
+@ApiTags('File')
+@ApiBearerAuth()
 @Controller('file')
 export class FileController {
 	constructor(private fileService: FileService) { }
@@ -32,6 +37,22 @@ export class FileController {
 
 	@Post('/upload/profile-image')
 	@UseGuards(AuthGuard())
+	@ApiCreatedResponse({
+		description: 'Uploaded profile image',
+		type: UploadImageResponseDto,
+	})
+	@ApiConsumes('multipart/form-data')
+	@ApiBody({
+		schema: {
+			type: 'object',
+			properties: {
+				'profile-image': {
+					type: 'string',
+					format: 'binary',
+				},
+			},
+		},
+	})
 	@UseInterceptors(
 		FileInterceptor('profile-image', {
 			storage: diskStorage({
@@ -54,17 +75,19 @@ export class FileController {
 		req,
 		@UploadedFile()
 		file: Express.Multer.File,
-	) {
-		return {
-			imageUrl: await this.fileService.updateProfileImage(
-				req.user._id,
-				file.filename,
-			),
-		};
+	): Promise<UploadImageResponseDto> {
+		return await this.fileService.updateProfileImage(
+			req.user._id,
+			file.filename,
+		)
 	}
 
 	@Get('/get/profile-image')
 	@UseGuards(AuthGuard())
+	@ApiCreatedResponse({
+		description: 'Get profile image',
+		type: StreamableFile,
+	})
 	getProfileImage(@Req() req, @Res({ passthrough: true }) res): StreamableFile {
 		this.logger.log(`/get/profile-image: ${req.user.imageUrl}`);
 
@@ -105,6 +128,13 @@ export class FileController {
 	}
 
 	@Get('/get/question-image')
+	@ApiCreatedResponse({
+		description: 'Get question image',
+		type: StreamableFile,
+	})
+	@ApiQuery({
+		type: UploadQuizCoverImageDto,
+	})
 	getQuestionImage(
 		@Query()
 		query: ExpressQuery,
@@ -146,6 +176,13 @@ export class FileController {
 
 
 	@Get('/get/quiz-cover-image')
+	@ApiCreatedResponse({
+		description: 'Get quiz cover image',
+		type: StreamableFile,
+	})
+	@ApiQuery({
+		type: GetImageDto,
+	})
 	getQuizCoverImage(
 		@Query()
 		query: ExpressQuery,
@@ -154,7 +191,7 @@ export class FileController {
 	): StreamableFile {
 		const imageUrl = query.imageUrl as string;
 		this.logger.log(`/get/quiz-cover-image: ${imageUrl}`);
-		
+
 		if (!imageUrl) {
 			res.status(200);
 			return;
@@ -187,6 +224,23 @@ export class FileController {
 
 	@Post('/upload/quiz-cover-image')
 	@UseGuards(AuthGuard())
+	@ApiCreatedResponse({
+		description: 'Uploaded quiz cover image',
+		type: UploadImageResponseDto,
+	})
+	@ApiConsumes('multipart/form-data')
+	@ApiBody({
+		schema: {
+			type: 'object',
+			properties: {
+				quizId: { type: 'string' },
+				'quiz-cover-image': {
+					type: 'string',
+					format: 'binary',
+				},
+			},
+		},
+	})
 	@UseInterceptors(
 		FileInterceptor('quiz-cover-image', {
 			storage: diskStorage({
@@ -211,18 +265,33 @@ export class FileController {
 		file: Express.Multer.File,
 		@Body()
 		body: UploadQuizCoverImageDto,
-	){
-		return {
-			imageUrl: await this.fileService.uploadQuizCoverImage(
-				req.user._id,
-				body.quizId,
-				file.filename,
-			),
-		};
+	): Promise<UploadImageResponseDto> {
+		return await this.fileService.uploadQuizCoverImage(
+			req.user._id,
+			body.quizId,
+			file.filename,
+		)
 	}
 
 	@Post('/upload/question-image')
 	@UseGuards(AuthGuard())
+	@ApiCreatedResponse({
+		description: 'Uploaded question image',
+		type: UploadQuestionImageResponseDto,
+	})
+	@ApiConsumes('multipart/form-data')
+	@ApiBody({
+		schema: {
+			type: 'object',
+			properties: {
+				questionId: { type: 'number' },
+				'question-image': {
+					type: 'string',
+					format: 'binary',
+				},
+			},
+		},
+	})
 	@UseInterceptors(
 		FileInterceptor('question-image', {
 			storage: diskStorage({
@@ -246,19 +315,13 @@ export class FileController {
 		@UploadedFile()
 		file: Express.Multer.File,
 		@Body()
-		body,
-		@Res()
-		res: Response,
-	): Promise<Response> {
+		body: UploadQuestionImageDto,
+	): Promise<UploadQuestionImageResponseDto> {
 		return this.fileService.uploadQuestionImage(
 			req.user._id,
 			body.questionId,
-			file?.filename,
-			res
+			file?.filename
 		)
 	}
 
-
-
-	
 }

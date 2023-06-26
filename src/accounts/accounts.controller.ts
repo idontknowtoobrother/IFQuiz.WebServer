@@ -7,14 +7,20 @@ import { AccountsService } from './accounts.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Accounts')
+@ApiBearerAuth()
 @Controller('accounts')
 export class AccountsController {
     constructor(private userService: AccountsService){}
     
-
     @Patch('/status') // update only status
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Updated status',
+        type: UpdateStatusDto
+    })
     async updateStatus(
         @Body()
         updateStatusDto: UpdateStatusDto,
@@ -27,6 +33,10 @@ export class AccountsController {
 
     @Patch('/edit') // update profile
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Updated profile',
+        type: UpdateProfileDto
+    })
     async updateProfile(
         @Body()
         updateProfileDto: UpdateProfileDto,
@@ -38,6 +48,10 @@ export class AccountsController {
 
     @Patch('/change-password') // change password
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Changed password',
+        type: ChangePasswordDto
+    })
     async changePassword(
         @Body()
         changePasswordDto: ChangePasswordDto,
@@ -49,6 +63,10 @@ export class AccountsController {
     
     @Delete('')
     @UseGuards(AuthGuard())
+    @ApiCreatedResponse({
+        description: 'Deleted account',
+        type: Messages
+    })
     async deleteAccount(
         @Req()
         req

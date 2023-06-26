@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
 import * as fs from 'fs';
 import { Quizzes } from 'src/quizzes/schemas/created.quizzes.schema';
+import { UploadImageResponseDto, UploadQuestionImageResponseDto } from './dto/upload.dto';
 
 @Injectable()
 export class FileService {
@@ -16,7 +17,7 @@ export class FileService {
 
     private readonly logger = new Logger(FileService.name)
 
-    async updateProfileImage(userId: string, newImagePath: string): Promise<String>{
+    async updateProfileImage(userId: string, newImagePath: string): Promise<UploadImageResponseDto>{
         this.logger.log(`updateProfileImage: ${userId} ${newImagePath}`)
 
         const user = await this.userModel.findById(userId, 'imageUrl')
@@ -32,26 +33,26 @@ export class FileService {
             new: true,
             runValidators: true
         })
-        this.logger.log(`updateProfileImage-response: ${userId} ${newImagePath}`)
-        return newImagePath
+
+        const res = new UploadImageResponseDto()
+        res.imageUrl = newImagePath
+        this.logger.log(`updateProfileImage-response: ${userId} ${JSON.stringify(res)}`)
+        return res
     }
 
 
-    async uploadQuestionImage(userId: string, questionId: number, newImagePath: string, res: any) {
+    async uploadQuestionImage(userId: string, questionId: number, newImagePath: string): Promise<UploadQuestionImageResponseDto> {
         this.logger.log(`uploadQuestionImage: ${userId} ${questionId} ${newImagePath}`)
         const imageFileName = newImagePath;
         
-        this.logger.log(`uploadQuestionImage-response: ${userId} ${questionId} ${imageFileName}`)
-        return res.status(HttpStatus.CREATED).json({
-            imageUrl: imageFileName,
-            questionId: questionId
-        })
-
-        // for make log
-        // or improve this in future
+        const res = new UploadQuestionImageResponseDto()
+        res.imageUrl = imageFileName
+        res.questionId = questionId as number
+        this.logger.log(`uploadQuestionImage-response: ${userId} ${JSON.stringify(res)}`)
+        return res
     }
 
-    async uploadQuizCoverImage(userId: string, quizId: string, newImagePath: string): Promise<String> {
+    async uploadQuizCoverImage(userId: string, quizId: string, newImagePath: string): Promise<UploadImageResponseDto> {
         this.logger.log(`uploadQuizCoverImage: ${userId} ${quizId} ${newImagePath}`)
         const quiz = await this.quizzesModel.findById(quizId).populate('user', '_id')
 
@@ -74,8 +75,10 @@ export class FileService {
             runValidators: true
         })
 
-        this.logger.log(`uploadQuizCoverImage-response: ${userId} ${quizId} ${newImagePath}`)
-        return newImagePath
+        const res = new UploadImageResponseDto()
+        res.imageUrl = newImagePath
+        this.logger.log(`uploadQuizCoverImage-response: ${userId} ${quizId} ${JSON.stringify(res)}`)
+        return res
     }
 
 }
